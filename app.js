@@ -1,29 +1,33 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const Razorpay = require('razorpay')
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors')
+
+const dotenv = require('dotenv')
+const crypto = require('crypto')
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controller/errorController')
 const hbs = require('express-handlebars')
 
-var indexRouter = require('./routes/index');
-var adminRouter
-  = require('./routes/admin');
 
-var app = express();
+
+
+const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
+
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-// app.engine('hbs', hbs.engine({
-//   extname: 'hbs',
-//   defaultLayout: 'layout',
-//   layoutDir: __dirname + '/views/layouts/',
-//   partialsDir: __dirname + '/views/partials/'
-// }))
+
 
 app.use(logger('dev'));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -34,8 +38,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/', indexRouter);
-app.use('/admin', adminRouter
-);
+app.use('/admin', adminRouter);
 
 
 app.all('*', (req, res, next) => {

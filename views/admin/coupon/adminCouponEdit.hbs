@@ -1,0 +1,84 @@
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Edit Coupon!</h1>
+                </div>
+                {{#with coupon}}
+                  <form
+                    id="coupon_edit"
+                   
+                  >
+                  <input type="text" value="{{_id}}" id="url" class="d-none">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control form-control-user"
+                        id="code"
+                        placeholder="Enter Email Address..."
+                        name="code"
+                        value="{{code}}"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control form-control-user"
+                        id="isPercent"
+                        placeholder="Enter Email Address..."
+                        name="isPercent"
+                        value="{{isPercent}}"
+                        required
+                      />
+                    </div>
+
+                    <input type="submit" value="Add" class="btn" />
+                    <hr />
+                  </form>
+                {{/with}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+ const editForm = document.getElementById('coupon_edit')
+ editForm.addEventListener('submit',async el=>{
+    const id = document.getElementById('url').value;
+    const code = document.getElementById('code').value
+     const isPercent = document.getElementById('isPercent').value
+
+    el.preventDefault();
+   try{
+     const res = await axios({
+        method:'post',
+        url:`/admin/coupon/${id}`,
+        data:{
+            code,
+            isPercent
+        }
+    })
+    location.assign('/admin/coupon')
+   }catch(err){
+    console.log(err)
+   }
+ })
+</script>
+<script src="/js/admin_manage.js"></script>

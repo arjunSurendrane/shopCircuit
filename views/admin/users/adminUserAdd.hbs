@@ -1,0 +1,152 @@
+<section class="container ">
+  {{! <article class="half"> }}
+  <h1 class="mt-5">EKART</h1>
+  <div class="tabs">
+    <span class="tab signup active"><a href="#">Add user </a></span>
+  </div>
+  <div class="content">
+    <div class="signin-cont cont">
+      <form action="" method="post" class="form-signup-admin">
+        <div class="row">
+          <div class="col-6">
+            <input
+              type="name"
+              name="name"
+              id="name"
+              class="inpt"
+              required="required"
+              placeholder="Your name"
+            />
+            <label for="name">Your name</label>
+          </div>
+
+          <div class="col-3">
+            <input
+              type="email"
+              name="email"
+             id="email"
+              class="inpt"
+              required="required"
+              placeholder="Your email"
+            />
+            <label for="email">Your email</label>
+          </div>
+          <div class="col-3">
+            <input
+              type="mob"
+              name="mob"
+            id="mob"
+              class="inpt"
+              required="required"
+              placeholder="Your mobile no"
+            />
+            <label for="email">Your mob no</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <input
+              type="password"
+              name="password"
+             id="password"
+              class="inpt"
+              required="required"
+              placeholder="Your password"
+            />
+            <label for="password">Your password</label>
+          </div>
+          <div class="col-6">
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              class="inpt"
+              required="required"
+              placeholder="Confrm password"
+            />
+            <label for="password">Confirm password</label>
+          </div>
+        </div>
+        <p>Address</p>
+        <div class="row">
+          <div class="col-3">
+            <input
+              type="text"
+              name="Pincode"
+             id="Pincode"
+              class="inpt"
+              required="required"
+              placeholder="Pincode"
+            />
+            <label for="name">Pincode</label>
+          </div>
+          <div class="col-3">
+            <input
+              type="text"
+              name="city"
+             id="city"
+              class="inpt"
+              required="required"
+              placeholder="City"
+            />
+            <label for="name">city</label>
+          </div>
+          <div class="col-3">
+            <input
+              type="text"
+              name="Locality"
+              id="Locality"
+              class="inpt"
+              required="required"
+              placeholder="Locality"
+            />
+            <label for="name">Locality</label>
+          </div>
+          <div class="col-3">
+            <input
+              type="text"
+              name="BuildingName"
+              id="BuildingName_signup"
+              class="inpt"
+              required="required"
+              placeholder="BuildingName"
+            />
+            <label for="name">Building Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <input
+              type="text"
+              name="Landmark"
+              id="Landmark_signup"
+              class="inpt"
+              required="required"
+              placeholder="Landmark"
+            />
+            <label for="name">LandMark</label>
+          </div>
+          <div class="col-6">
+            <div class="form-check form-check-inline">
+              <select class="form-select inpt addressType" name="AddressType" placeholder="Address Type" id="AddressType">
+              <option class="option-text">Open this select Address Type</option>
+              <option value="Home">Home</option>
+              <option value="Office">Office</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <input type="submit" value="Sign in" class="submit" />
+          {{! <a href="#" class="more">Forgot your password?</a> }}
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+  {{! </article> }}
+  <div class="half bg"></div>
+</section>

@@ -1,0 +1,83 @@
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Edit Offer!</h1>
+                </div>
+                {{#with category}}
+                  <form
+                    id="categoryOfferEdit"
+                  >
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="offerName"
+                      name="offerName"
+                      placeholder="Enter Offer Name..."
+                      value="{{offerName}}"
+                      required
+                    />
+                     </div>
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="offer"
+                      name="offer"
+                      placeholder="Enter Offer In pencentage..."
+                      value="{{offer}}"
+                      required
+                    />
+                  </div>
+
+                    <input type="submit" value="Save" class="btn" />
+                    <hr />
+                  </form>
+                {{/with}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+  const formEdit = document.getElementById('categoryOfferEdit')
+  formEdit.addEventListener('submit', async el =>{
+    el.preventDefault();
+    const url = window.location.href
+    const offerName = document.getElementById('offerName').value ;
+    const offer = document.getElementById('offer').value
+   try{
+       const res = await axios({
+      method:'post',
+      url,
+      data:{
+       
+        offerName,
+        offer
+      }
+    })
+    location.assign('/admin/offer/category')
+   }catch(err){
+    alert(err.response.data.message)
+   }
+  })
+</script>

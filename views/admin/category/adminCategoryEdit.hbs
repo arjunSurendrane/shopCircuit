@@ -1,0 +1,96 @@
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                </div>
+                {{#with category}}
+                  <form
+                    id="categoryEdit"
+                  >
+                  <input type="text" value="{{_id}}" class="d-none" id="url">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control form-control-user"
+                        id="categoryName"
+                        placeholder="Enter Email Address..."
+                        name="categoryName"
+                        value="{{categoryName}}"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="offerName"
+                      name="offerName"
+                      placeholder="Enter Offer Name..."
+                      value="{{offerName}}"
+                      required
+                    />
+                     </div>
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="offer"
+                      name="offer"
+                      placeholder="Enter Offer In pencentage..."
+                      value="{{offer}}"
+                      required
+                    />
+                  </div>
+
+                    <input type="submit" value="Add" class="btn" />
+                    <hr />
+                  </form>
+                {{/with}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+  const formEdit = document.getElementById('categoryEdit')
+  formEdit.addEventListener('submit', async el =>{
+    el.preventDefault();
+    const id = document.getElementById('url').value
+    const categoryName = document.getElementById('categoryName').value
+    const offerName = document.getElementById('offerName').value ;
+    const offer = document.getElementById('offer').value
+   try{
+       const res = await axios({
+      method:'post',
+      url:`/admin/category/${id}`,
+      data:{
+        categoryName,
+        offerName,
+        offer
+      }
+    })
+    location.assign('/admin/category')
+   }catch(err){
+    alert(err.response.data.message)
+   }
+  })
+</script>

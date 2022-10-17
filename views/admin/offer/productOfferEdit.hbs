@@ -1,0 +1,85 @@
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Edit Offer!</h1>
+                </div>
+                {{#with product}}
+                  <form
+                    id="productOfferEdit"
+                  >
+                  <input type="text" value="{{_id}}" class="d-none" id="url">
+                    
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="offer_name"
+                      name="offerName"
+                      placeholder="Enter Offer Name..."
+                      value="{{offer_name}}"
+                      required
+                    />
+                     </div>
+                    <div class="form-group">
+
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="discount"
+                      name="discount"
+                      placeholder="Enter Offer In pencentage..."
+                      value="{{discount}}"
+                      required
+                    />
+                  </div>
+
+                    <input type="submit" value="Save" class="btn" />
+                    <hr />
+                  </form>
+                {{/with}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+  const formEdit = document.getElementById('productOfferEdit')
+  formEdit.addEventListener('submit', async el =>{
+    el.preventDefault();
+   const url = window.location.href
+    const offer_name = document.getElementById('offer_name').value ;
+    const discount = document.getElementById('discount').value
+   try{
+       const res = await axios({
+      method:'post',
+      url,
+      data:{
+      
+        offer_name,
+        discount
+      }
+    })
+    location.assign('/admin/offer/product')
+   }catch(err){
+    alert(err.response.data.message)
+   }
+  })
+</script>

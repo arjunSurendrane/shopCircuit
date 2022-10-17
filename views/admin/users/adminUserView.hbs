@@ -1,0 +1,72 @@
+ <!-- Begin Page Content -->
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+                <div class="container-fluid mt-5">
+
+                    <!-- Page Heading -->
+                  <h1 class="h3 mb-2 text-gray-800">User</h1>
+                      {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                       <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">User Details</h6>
+                            {{!-- <a href="/admin/productAdd"><h6 class="m-0 font-weight-bold text-primary">Add user</h6></a> --}}
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                              <th>Name</th>
+                                            <th>Mobile</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                             <th>Name</th>
+                                            <th>Mobile</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                      {{#each user}}
+                                        <tr>
+                                            <td>{{name}}</td>
+                                            <td>{{mob}}</td>
+                                            <td>{{email}}</td>
+
+                                            {{#if block}}
+                                            <td><p class="text-danger">Inactive</p></td>
+                                             <td><form action="/admin/user/{{_id}}">
+                                            <input type="submit" value="Unblock" class="btn"></form></td>
+                                            {{else}}
+                                            <td><p class="text-success">Active</p></td>
+                                            <td><form action="/admin/user/{{_id}}" method="post">
+                                            <input type="submit" value="Block" class="btn"></form></td>
+                                            {{/if}}
+                                            {{/each}}
+                                         
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>

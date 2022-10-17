@@ -1,0 +1,60 @@
+ <!-- Begin Page Content -->
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+                <div class="container-fluid mt-5">
+
+                    <!-- Page Heading -->
+                  <h1 class="h3 mb-2 text-gray-800">Category Offer</h1>
+                      {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                      
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                              <th>Category Name</th>
+                                              <th>Offer name</th>
+                                              <th>Discount</th>
+                                              <th>Edit</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                           <th>Category Name</th>
+                                              <th>Offer name</th>
+                                              <th>Discount</th>
+                                              <th>Edit</th>
+                                            
+                                            
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                      {{#each category}}
+                                        <tr>
+                                            <td>{{categoryName}}</td>
+                                            <td>{{offerName}}</td>
+                                            <td>{{offer}}</td>
+                                            <td><a href="/admin/offer/category/edit/{{_id}}">edit</a></td>
+                                            
+                                        </tr>
+                                        {{/each}}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>

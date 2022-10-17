@@ -1,0 +1,394 @@
+<!-- ...:::: Start Checkout Section:::... -->
+<div class="checkout-section mt-5">
+  <div class="container">
+    <div class="row">
+      <!-- User Quick Action Form -->
+      {{! <div class="col-12">
+        <div
+          class="user-actions accordion"
+          data-aos="fade-up"
+          data-aos-delay="0"
+        >
+          <h3>
+            <i class="fa fa-file-o" aria-hidden="true"></i>
+            Returning customer?
+            <a
+              class="Returning"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#checkout_login"
+              aria-expanded="true"
+            >Click here to login</a>
+          </h3>
+          <div
+            id="checkout_login"
+            class="collapse"
+            data-parent="#checkout_login"
+          >
+            <div class="checkout_info">
+              <p>If you have shopped with us before, please enter your details
+                in the boxes below. If you are a new customer please proceed to
+                the Billing &amp; Shipping section.</p>
+              <form action="#">
+                <div class="form_group default-form-box">
+                  <label>Username or email <span>*</span></label>
+                  <input type="text" />
+                </div>
+                <div class="form_group default-form-box">
+                  <label>Password <span>*</span></label>
+                  <input type="password" />
+                </div>
+                <div class="form_group group_3 default-form-box">
+                  <button
+                    class="btn btn-md btn-black-default-hover"
+                    type="submit"
+                  >Login</button>
+                  <label class="checkbox-default">
+                    <input type="checkbox" />
+                    <span>Remember me</span>
+                  </label>
+                </div>
+                <a href="#">Lost your password?</a>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div
+          class="user-actions accordion"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <h3>
+            <i class="fa fa-file-o" aria-hidden="true"></i>
+            Returning customer?
+            <a
+              class="Returning"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#checkout_coupon"
+              aria-expanded="true"
+            >Click here to enter your code</a>
+
+          </h3>
+          <div
+            id="checkout_coupon"
+            class="collapse checkout_coupon"
+            data-parent="#checkout_coupon"
+          >
+            <div class="checkout_info">
+              <form action="#">
+                <input placeholder="Coupon code" type="text" />
+                <button
+                  class="btn btn-md btn-black-default-hover"
+                  type="submit"
+                >Apply coupon</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div> }}
+      <!-- User Quick Action Form -->
+    </div>
+    <!-- Start User Details Checkout Form -->
+    <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
+      <div class="row">
+        {{#with cart}}
+          <div class="col-lg-6 col-md-6">
+            {{#with user}}
+
+              <h3>Billing Details</h3>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="default-form-box">
+                    <label>Name </label>
+                    <input type="text" value="{{name}}" />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="default-form-box">
+                    <label>Mobile Number </label>
+                    <input type="text" value="{{mob}}" />
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="default-form-box">
+                    <label for="address">Address </label>
+                    <select
+                      class="country_option nice-select wide"
+                      name="address"
+                      id="address"
+                    >
+                      {{#each address}}
+                        <option value="{{BuildingName}}, {{Pincode}}, {{city}}, {{Locality}}, Landmark: {{Landmark}}">
+                          {{BuildingName}},
+                          {{Pincode}},
+                          {{city}},
+                          {{Locality}},
+                          {{Landmark}}
+                        </option>
+                      {{/each}}
+
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 mt-5">
+                  <label
+                    class="checkbox-default"
+                    for="newShipping"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#anotherShipping"
+                  >
+                    <input type="checkbox" id="newShipping" />
+                    <span>Ship to a different address?</span>
+                  </label>
+
+                  <div
+                    id="anotherShipping"
+                    class="collapse mt-3"
+                    data-parent="#anotherShipping"
+                  >
+                    <div class="row">
+
+                      <form action="/address" method="post">
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              placeholder="Apartment, suite, unit etc. (optional)"
+                              type="text"
+                              name="BuildingName"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              placeholder="Enter Locality"
+                              type="text"
+                              name="Locality"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              placeholder="Enter City Name"
+                              type="text"
+                              name="city"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              placeholder="Enter Pincode"
+                              type="text"
+                              name="Pincode"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              placeholder="Ender Landmark "
+                              type="text"
+                              name="Landmark"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="default-form-box">
+                            <input
+                              type="submit"
+                              class="btn bg-dark text-white"
+                              value="submit"
+                            />
+                          </div>
+                        </div>
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            {{/with}}
+          </div>
+        {{/with}}
+        <div class="col-lg-6 col-md-6">
+
+          <h3>Your order</h3>
+          <div class="order_table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Total</th>
+                  <th>image</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#with cart}}
+                  {{#each cartItems}}
+                    <tr>
+                      <td>
+                        {{product.productName}}<strong>
+                          ×
+                          {{quantity}}</strong></td>
+                      <td> {{price}}</td>
+                      <td
+                        style="width:250px; height:250px; background-color:rgb(255, 255, 255);text-align:center; vertical-align:middle"
+                      >
+                        <img
+                          src="/images/{{product.image.[1]}}"
+                          alt=""
+                          style="max-height:100%; max-width:100%"
+                        /></td>
+                    </tr>
+                  {{/each}}
+                {{/with}}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Cart Subtotal</th>
+                  <td>{{amount}}</td>
+                </tr>
+                <tr>
+                  <th>Counpon</th>
+                  <td><strong class="text-success">-{{discount}}</strong></td>
+                </tr>
+                <tr class="order_total">
+                  <th>Order Total</th>
+                  <td><strong id="totalAmount">{{cart.couponOffer}}</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="payment_method">
+
+            
+                <div class="col-12 ">
+                  <div class="default-form-box">
+                    <label for="address">Payment Method </label>
+                    <select
+                      class="country_option nice-select wide"
+                      name="paymentMethod"
+                      id="paymentMethod"
+                    >
+                      <option value="COD">Cash On Delivery</option>
+                      <option value="UPI">UPI Payment</option>
+                      <option value="Debit/Credit">Debit / Credit card Payment</option>
+
+                  
+                       
+                    </select>
+                  </div>
+                </div>
+
+            <div class="order_button pt-3 mb-4">
+              <button
+                class="btn btn-md btn-black-default-hover mt-4"
+                type="submit"
+                onclick="orderSubmit()"
+              >Order Placed</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Start User Details Checkout Form -->
+  </div>
+</div><!-- ...:::: End Checkout Section:::... -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+console.log('haiiii')
+    async function orderSubmit(){
+        console.log('inside function')
+        const address = document.getElementById('address').value;
+        const totalPrice = document.getElementById('totalAmount').innerHTML;
+        const paymentMethod = document.getElementById('paymentMethod').value
+
+
+        try{
+            const res = await axios({
+                method:'post',
+                url:'/checkout',
+                data:{
+                    address,
+                    totalPrice,
+                    paymentMethod
+                }
+            });
+            if(res.data.status == 'success'){
+              alert('order Placed')
+              location.assign('/')
+            }
+            else if(res.data.status == 'pending'){
+              razorpay(res.data.order)
+            }
+        }catch(err){
+            alert(err.response.data.message)
+        }
+    }
+
+    function razorpay(order){
+      console.log('iivde')
+      var options = {
+    "key": 'rzp_test_NdbzbxQDFDJ5MH', // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Shop Circuit",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+   //"callback_url": "https://eneqd3r9zrjok.x.pipedream.net/", 
+    "handler": function (response){
+          
+    
+          verifyPayment(response,order);
+    },
+
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+ rzp1.open();
+    }
+
+    async function verifyPayment(payment,order){
+      console.log(payment)
+     
+     try{
+       const res = await axios({
+        method:'post',
+        url:'/order/payment',
+        data:{
+          payment,
+          order
+        }
+      })
+      if(res.data.status == 'success'){
+        alert('order placed')
+        location.assign('/')
+      }else{
+        alert('payment failed')
+      }
+     }catch(err){
+      alert(err.response.data.message)
+     }
+    }
+</script>
