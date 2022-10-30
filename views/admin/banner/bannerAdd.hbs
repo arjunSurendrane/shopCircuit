@@ -1,0 +1,184 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Add Banner</h1>
+                                </div>
+                                <form id="banner">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" id="productName"
+                                            name="categoryName" placeholder="Enter Banner Name..." required />
+                                        <span>
+                                            <p class="text-danger" id="nameerror"></p>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <select name="productId" id="productId" class="form-control">
+                                            {{#each product}}
+                                            <option value="{{_id}}">{{productName}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <input type="text" class="form-control form-control-user" id="discription"
+                                            name="offer" placeholder="Enter discription..." required />
+                                        <span>
+                                            <p class="text-danger" id="discerror"></p>
+                                        </span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <input type="file" class="form_upload" accept="image/*" id="image"
+                                                name="image" />
+
+                                            <img src="" alt="" id="image1">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="box-2">
+                                                <div class="result"></div>
+                                            </div>
+                                            <!--rightbox-->
+                                            <div class="box-2 img-result hide">
+                                                <!-- result of crop -->
+                                                <img class="cropped" src="" alt="" />
+                                            </div>
+                                            <!-- input file -->
+                                            <div class="box">
+                                                <div class="options hide d-none">
+                                                    <label> Width</label>
+                                                    <input type="number" class="img-w" value="300" min="100"
+                                                        max="1200" />
+                                                </div>
+
+                                                <!-- save btn -->
+                                                <button class="btn save hide">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="submit" value="Add" class="btn" />
+                                    <hr />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+
+<script>
+    let result = document.querySelector(".result"),
+        img_result = document.querySelector(".img-result"),
+        img_w = document.querySelector(".img-w"),
+        img_h = document.querySelector(".img-h"),
+        options = document.querySelector(".options"),
+        save = document.querySelector(".save"),
+        cropped = document.querySelector(".cropped"),
+        upload = document.querySelector("#image"),
+
+        cropper = "";
+
+
+    upload.addEventListener("change", e => {
+        const img_data = upload.files[0]
+        if (e.target.files.length) {
+            // start file reader
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target.result) {
+                    // create new image
+                    let img = document.createElement("img");
+                    img.id = "image";
+                    img.src = e.target.result;
+                    // clean result before
+                    result.innerHTML = "";
+                    // append new image
+                    result.appendChild(img);
+                    // show save btn and options
+                    save.classList.remove("hide");
+                    options.classList.remove("hide");
+                    // init cropper
+                    cropper = new Cropper(img);
+                }
+
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        // save on click
+        save.addEventListener("click", (e) => {
+            e.preventDefault();
+            // get result to data uri
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                let fileInputElement1 = document.getElementById(`image`);
+                console.log(fileInputElement1)
+                let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                let container = new DataTransfer();
+                container.items.add(file);
+                fileInputElement1.files = container.files;
+            })
+            console.log(img_data)
+
+            let imgSrc = cropper
+                .getCroppedCanvas({
+                    width: img_w.value, // input value
+                })
+                .toDataURL();
+            // remove hide class of img
+            cropped.classList.remove("hide");
+            img_result.classList.remove("hide");
+            // show image cropped
+            console.log(document.getElementById(`image1`))
+            document.getElementById(`image1`).src = `${imgSrc}`
+            cropped.src = imgSrc;
+            return;
+        });
+    });
+
+
+
+
+    const banner = document.getElementById('banner')
+    banner.addEventListener('submit', async el => {
+        el.preventDefault();
+        console.log('inside the event listener');
+        const form = new FormData();
+        form.append('productName', document.getElementById('productName').value)
+        form.append('productId', document.getElementById('productId').value)
+        form.append('discription', document.getElementById('discription').value)
+        form.append('image', document.getElementById('image').files[0])
+        console.log(form);
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/admin/banner/add',
+                data: form
+            });
+            if (res.data.status == 'success') {
+                location.assign('/admin/banner');
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
+    });
+</script>

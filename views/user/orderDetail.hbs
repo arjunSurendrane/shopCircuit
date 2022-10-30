@@ -1,0 +1,152 @@
+<div class="account-dashboard m-5 ">
+    <div>
+        <div class="row mb-2">
+
+            <div class="col-8">
+                <h4><strong>Orders</strong></h4>
+            </div>
+            <div class="col-4">
+                {{#if order.delivery}}
+                {{#if order.return}}
+                <h6><strong class="text-danger">Return Order</strong></h6>
+                {{else}}
+                <a href="/order/return/{{order._id}}" class="view"><button
+                        class="bg-dark text-white btn mt-2">return</button></a>
+                {{/if}}
+                {{/if}}
+
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h6>Payment Method</h6>
+                <p>{{order.PaymentMethod}}</p>
+            </div>
+            <div class="col-6">
+                <h6>Address</h6>
+                <p>{{order.shippingAddress}}</p>
+            </div>
+        </div>
+        <div class="table_page table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ProductName</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        {{#if order.delivery}}
+                        {{else}}
+                        <th>Option</th>
+
+                        {{/if}}
+
+
+                    </tr>
+                </thead>
+                {{!-- <tbody>
+                    {{#each order}}
+                    {{#each orderItems}}
+                    <tr>
+                        <td>{{productName}}</td>
+                        <td>{{../createdAt}}</td>
+                        <td><span class="success">completed</span></td>
+                        <td>{{price}} for {{quantity}} item </td>
+                        <td>{{../shippingAddress}}</td>
+                        {{#if cancel}}
+                        <td>Cancelled</td>
+                        <td>
+                            <p class="text-danger">order cancelled</p>
+                        </td>
+                        {{else}}
+                        {{#if ../delivery}}
+                        <td>{{status}}</td>
+                        {{#if ../return}}
+                        <td>item return with in 2 days</td>
+                        {{else}}
+                        <td><a href="/order/return/{{_id}}" class="view">Return</a></td>
+                        {{/if}}
+
+                        {{else}}
+                        <td>{{status}}</td>
+                        <td><a href="/order/cancel/{{_id}}" class="view">cancel</a></td>
+                        {{/if}}
+                        {{/if}}
+                        {{#if ../return}}
+                        <td><a href="/invoice/{{../_id}}"> View Order Details</a></td>
+                        {{else}}
+                        <td><a class="btn bg-dark text-white" href="/invoice/{{../_id}}">Download</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{/each}}
+
+                </tbody> --}}
+                <tbody>
+                    {{#each order}}
+                    {{#each orderItems}}
+
+                    <tr>
+                        <td><a href="/product/{{productId}}"><img src="/images/{{image.[0]}}" class="img-thumbnail"
+                                    width="80rem" alt="">
+                            </a></td>
+                        <td>{{productName}}</td>
+                        <td>{{quantity}}</td>
+                        <td>{{price}}</td>
+                        {{#if ../delivery}}
+
+                        {{else}}
+
+                        {{#if cancel}}
+                        {{#if ../return}}
+                        <td>Order return completed</td>
+                        {{else}}
+                        <td><strong class="text-danger">Cancelled</strong></td>
+                        {{/if}}
+                        {{else}}
+                        {{#if ../return}}
+                        <td>Order return completed</td>
+                        {{else}}
+                        <td><a href="/order/cancel/{{_id}}" class="view">cancel</a></td>
+
+                        {{/if}}
+
+
+                        {{/if}}
+                        {{/if}}
+
+                    </tr>
+
+                    {{/each}}
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-8">
+
+            </div>
+            <div class="col-4">
+                <table>
+
+                    <tbody>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td>{{order.totalPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+</div>

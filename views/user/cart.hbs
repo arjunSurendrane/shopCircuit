@@ -1,4 +1,3 @@
-
 <!-- ...:::: Start Cart Section:::... -->
 <div class="cart-section">
   <!-- Start Cart Table -->
@@ -8,7 +7,7 @@
         <div class="col-12">
           <div class="table_desc">
             <div class="table_page table-responsive">
-              <table>
+              <table class="table">
                 <!-- Start Cart Table Head -->
                 <thead>
                   <tr>
@@ -25,34 +24,21 @@
                   <!-- Start Cart Single Item-->
                   <tr>
                     {{#with cart}}
-                      {{#each cartItems}}
-                        <td class="product_remove"><a href="/cart/{{_id}}"><i
-                              class="fa fa-trash-o"
-                            ></i></a>
-                        </td>
-                        <td class="product_thumb"><a
-                            href="product-details-default.html"
-                          ><img
-                              src="/images/{{product.image.[1]}}"
-                              alt=""
-                            /></a></td>
-                        <td class="product_name"><a
-                            href="product-details-default.html"
-                          >{{product.productName}} </a></td>
-                        <td class="product-price">{{product.price}}</td>
-                        <td class="product_quantity"><label>Quantity</label>
-                          <input
-                            min="1"
-                            max="100"
-                            value="{{quantity}}"
-                            id="{{product._id}}quantity"
-                            type="number"
-                            onblur="quantityUpdate('{{product._id}}')"
-                          /></td>
-                        <td class="product_total_table" id="product_total">{{price}}</td>
+                    {{#each cartItems}}
+                    <td class="product_remove"><a href="/cart/{{_id}}"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                    <td class="product_thumb"><a href="product-details-default.html"><img
+                          src="/images/{{product.image.[1]}}" alt="" /></a></td>
+                    <td class="product_name"><a href="product-details-default.html">{{product.productName}} </a></td>
+                    <td class="product-price">{{product.price}}</td>
+                    <td class="product_quantity"><label>Quantity</label>
+                      <input min="1" max="100" value="{{quantity}}" id="{{product._id}}quantity" type="number"
+                        onchange="quantityUpdate('{{product._id}}')" />
+                    </td>
+                    <td class="product_total_table" id="product_total">{{price}}</td>
                   </tr>
-                      {{/each}}
-                    {{/with}}
+                  {{/each}}
+                  {{/with}}
                   <!-- End Cart Single Item-->
                 </tbody>
               </table>
@@ -74,7 +60,8 @@
             <div class="coupon_inner">
               <p>Enter your coupon code if you have one.</p>
               <select class="mr-2" id="coupon">
-                {{#each coupon}}
+                <option value="0">No coupon</option>
+                {{#each validCoupon}}
                 <option value="{{isPercent}}">'{{code}}' --- you get {{isPercent}} Off</option>
                 {{/each}}
               </select>
@@ -83,11 +70,7 @@
           </div>
         </div>
         <div class="col-lg-6 col-md-6">
-          <div
-            class="coupon_code right"
-            data-aos="fade-up"
-            data-aos-delay="400"
-          >
+          <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
             <h3>Cart Totals</h3>
             <div class="coupon_inner">
               <div class="cart_subtotal">
@@ -95,8 +78,8 @@
                 <p class="cart_amount" id="subtotal">$215.00</p>
               </div>
               <div class="cart_subtotal">
-                <p>Shipping</p>
-                <p class="cart_amount"><span>Flat Rate:</span> 0.00</p>
+                <p>Discount</p>
+                <p class="cart_amount"><span>Flat Rate:</span><span id="dis" class="text-success">00.00</span></p>
               </div>
               <a href="#">Calculate shipping</a>
 
@@ -117,65 +100,65 @@
 </div>
 <!-- ...:::: End Cart Section:::... -->
 <script>
-    const subtotal = document.getElementById('subtotal')
-    const stotal = document.querySelectorAll('.product_total_table')
-    console.log(stotal.innerHTML)
-    let total = 0
-    let price = 0;
+  const subtotal = document.getElementById('subtotal')
+  const stotal = document.querySelectorAll('.product_total_table')
+  console.log(stotal.innerHTML)
+  let total = 0
+  let price = 0;
 
-    stotal.forEach(el =>{
-       total = parseInt(el.innerHTML) + total
-    })
-    subtotal.innerHTML = total
-    document.getElementById('total').innerHTML = subtotal.innerHTML
-    let discount = total;
-    document.getElementById('couponApply').addEventListener('click',async el=>{
-      const coupon = document.getElementById('coupon').value
-      console.log(coupon)
-      console.log(total)
-      //const totalAmount =  subtotal.innerHTML ;
-      discount  =total -( total *(coupon/100))
-      price = discount
-      document.getElementById('total').innerHTML = parseInt(discount)
-      const res = await axios({
-        method:'post',
-        url:'/admin/cartCoupon/offer',
-        data:{
-          price
-        }
-      })
-      console.log(res)
-    })
-
-   async function proceedToCheckOut(){
-    
-    (discount>total)? price = parseInt(total): price = parseInt(discount);
+  stotal.forEach(el => {
+    total = parseInt(el.innerHTML) + total
+  })
+  subtotal.innerHTML = total
+  document.getElementById('total').innerHTML = subtotal.innerHTML
+  let discount = total;
+  document.getElementById('couponApply').addEventListener('click', async el => {
+    const coupon = document.getElementById('coupon').value
+    console.log(coupon)
+    console.log(total)
+    //const totalAmount =  subtotal.innerHTML ;
+    discount = total - (total * (coupon / 100))
+    price = discount
+    document.getElementById('total').innerHTML = parseInt(discount)
+    document.getElementById('dis').innerHTML = - parseInt(total - discount)
     const res = await axios({
-      method:'post',
-      url:'/admin/cartCoupon/offer',
-      data:{
+      method: 'post',
+      url: '/cartCoupon/offer',
+      data: {
         price
-      }      
+      }
     })
-   location.assign('/checkout') 
-   }
+    console.log(res)
+  })
 
-    async function quantityUpdate(id){
-        const quantity = document.getElementById(`${id}quantity`).value
-        try{
-            const res = await axios({
-                method:'POST',
-                url:`/cart/quantity/${id}`,
-                data:{
-                    quantity
-                }
-            
-            })
-                if(res.data.status == 'success'){
-                    location.reload(true)
-                }
-        }catch(err){
-            alert(err.response.data.message)
+  async function proceedToCheckOut() {
+
+    (discount > total) ? price = parseInt(total) : price = parseInt(discount);
+    const res = await axios({
+      method: 'post',
+      url: '/cartCoupon/offer',
+      data: {
+        price
+      }
+    })
+    location.assign('/checkout')
+  }
+  async function quantityUpdate(id) {
+    const quantity = document.getElementById(`${id}quantity`).value
+    try {
+      const res = await axios({
+        method: 'POST',
+        url: `/cart/quantity/${id}`,
+        data: {
+          quantity
         }
+
+      })
+      if (res.data.status == 'success') {
+        location.reload(true)
+      }
+    } catch (err) {
+      alert(err.response.data.message)
     }
+  }
 </script>

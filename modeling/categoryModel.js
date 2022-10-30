@@ -7,13 +7,14 @@ const CategorySchema = new mongoose.Schema(
     {
         categoryName: {
             type: String,
-            required: [true, 'category must have category name']
+            required: [true, 'category must have category name'],
+            unique: true
         },
-        offerName:{
-            type:String
+        offerName: {
+            type: String
         },
-        offer:{
-            type:Number
+        offer: {
+            type: Number
         }
     },
     {

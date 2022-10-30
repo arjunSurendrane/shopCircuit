@@ -16,36 +16,22 @@
                 </div>
                 <form id="Addcode">
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="code"
-                      name="code"
-                      placeholder="Enter Coupon code here..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="code" name="code"
+                      placeholder="Enter Coupon code here..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="isPercent"
-                      name="isPercent"
-                      placeholder="Enter Coupon Discount..."
-                      required
-                    />
+                    <input type="number" class="form-control form-control-user" id="isPercent" name="isPercent"
+                      placeholder="Enter Coupon Discount..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="Date"
-                      class="form-control form-control-user"
-                      id="expireDate"
-                      name="expireDate"
-                      placeholder="Enter Coupon Expire Date..."
-                      required
-                    />
+                    <input type="Date" class="form-control form-control-user" id="expireDate" name="expireDate"
+                      placeholder="Enter Coupon Expire Date..." required />
                   </div>
-                  
+                  <div class="form-group">
+                    <input type="Number" class="form-control form-control-user" id="offerCriteria" name="offerCriteria"
+                      placeholder="Enter Coupon offerCriteria..." required />
+                  </div>
+
                   <input type="submit" value="Add" class="btn" />
                   <hr />
                 </form>
@@ -62,27 +48,29 @@
 </div>
 <script>
   const addCode = document.getElementById('Addcode')
-  addCode.addEventListener('submit',async el =>{
+  addCode.addEventListener('submit', async el => {
     el.preventDefault();
     const code = document.getElementById('code').value
     const isPercent = document.getElementById('isPercent').value
     const expireDate = document.getElementById('expireDate').value
-   try{
-       const res = await axios({
-      method:'post',
-      url:'/admin/coupon',
-      data:{
-        code,
-        isPercent,
-        expireDate
+    const offerCriteria = document.getElementById('offerCriteria').value
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/admin/coupon',
+        data: {
+          code,
+          isPercent,
+          expireDate,
+          offerCriteria
+        }
+      })
+      location.assign('/admin/coupon')
+    } catch (err) {
+      if (err.response.data.message.startsWith('E11000')) {
+        alert('coupon code already used')
       }
-    })
-    location.assign('/admin/coupon')
-   }catch(err){
-    if(err.response.data.message.startsWith('E11000')){
-      alert('coupon code already used')
     }
-   }
 
   })
 </script>

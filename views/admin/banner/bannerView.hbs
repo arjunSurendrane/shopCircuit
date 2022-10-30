@@ -1,0 +1,96 @@
+<!-- Begin Page Content -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<div class="container-fluid mt-5">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Category</h1>
+    {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank"
+            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Banner Details</h6>
+            <a href="/admin/banner/add">
+                <h6 class="m-0 font-weight-bold text-primary">Add Banner</h6>
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Id</th>
+                            <th>image</th>
+                            <th>Discription</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Id</th>
+                            <th>image</th>
+                            <th>Discription</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each banner}}
+                        <tr>
+                            <td>{{productName}}</td>
+                            <td>{{productId}}</td>
+                            <td>{{image}}</td>
+                            <td>{{discription}}</td>
+                            <td><a href="/admin/banner/{{_id}}">edit</a></td>
+                            <td><button onclick="deleteProduct('{{_id}}')"
+                                    class="btn bg-dark text-white">delete</button>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<script>
+    async function deleteProduct(_id) {
+        console.log(_id)
+        let isExecuted = confirm("Are you sure?");
+        if (isExecuted) {
+            const res = await axios({
+                method: 'delete',
+                url: `/admin/banner/delete/${_id}`
+            })
+            console.log(res)
+            location.reload(true)
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{{!--
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> --}}
+{{!--
+<script src="/js/demo/datatables-demo.js"></script> --}}

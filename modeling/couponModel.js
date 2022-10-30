@@ -12,7 +12,7 @@ const couponSchema = new mongoose.Schema(
       require: true,
     },
     expireDate: {
-      type: String,
+      type: Date,
       require: true,
       default: "",
     },
@@ -20,6 +20,10 @@ const couponSchema = new mongoose.Schema(
       type: String,
       default: true,
     },
+    offerCriteria: {
+      type: Number,
+      default: 35000
+    }
   },
   { timestamps: true }
 );

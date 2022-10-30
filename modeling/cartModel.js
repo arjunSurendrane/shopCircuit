@@ -26,6 +26,9 @@ const cartSchema = new mongoose.Schema(
     couponOffer: {
       type: Number,
     },
+    totalPrice: {
+      type: Number
+    }
   },
   { timeStamps: true }
 );

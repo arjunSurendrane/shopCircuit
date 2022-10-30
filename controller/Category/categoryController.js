@@ -15,8 +15,8 @@ const response = (content, statusCode, res) => {
 // --------------ADD CATEGORY-------------------
 exports.addCategory = catchAsync(async (req, res, next) => {
     const category = await Category.create(req.body);
-    // response(category, 200, res)
-    res.redirect('/admin/category')
+    response(category, 200, res)
+    // res.redirect('/admin/category')
 });
 
 
@@ -35,7 +35,7 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
 exports.updateCategory = catchAsync(async (req, res, next) => {
     const { categoryName, newName } = req.body;
     const updateItem = await Category.findByIdAndUpdate({ _id: req.params.id },
-        req.body,{new:true,upsert:true})
+        req.body, { new: true, upsert: true })
     if (!updateItem) {
         return next(new AppError('this category not available!!!', 404))
     }

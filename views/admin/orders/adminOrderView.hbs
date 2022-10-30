@@ -1,98 +1,107 @@
- <!-- Begin Page Content -->
-  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-                <div class="container-fluid mt-5">
+<!-- Begin Page Content -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<div class="container-fluid mt-5">
 
-                    <!-- Page Heading -->
-                  <h1 class="h3 mb-2 text-gray-800">Order</h1>
-                      {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Order</h1>
+    {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank"
+            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Order Details</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>User Name</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                            <th>Address</th>
-                                            <th>Action</th>
-                                            <th>status</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                          <th>User_id</th>
-                                            <th>Product_id</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                           <th>Address</th>
-                                            <th>Action</th>
-                                            <th>status</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                      {{#each order}}
-                                       
-                                      {{#each orderItems}}
-                                        <tr>
-                                            <td>{{../user.name}}</td>
-                                            <td>{{productName}}</td>
-                                            <td>{{quantity}}</td>
-                                            <td>{{price}}</td>
-                                            <td>{{../createdAt}}</td>
-                                            <td>{{../PaymentMethod}}</td>
-                                            <td>{{status}}</td>
-                                            <td>{{../shippingAddress}}</td>
-                                            <td><form action="/admin/order/{{_id}}" method="get">
-                                            {{#if cancel}}
-                                            <button  value="cancelled" class="btn  text-danger">Cancelled</button>
-                                            <td>Product Cancelled</td>
-                                            {{else}}
-                                            <input type="submit" value="cancel" class="btn ">
-                                           
-                                            </form></td>
-                                            <td><form action="/admin/order/{{_id}}" method="post">
-                                            <p>Current Status : {{status}}</p>
-                                            <input type="text" value="{{product_id}}" class="d-none" name="product_id">
-                                               <select name="status" id="">
-                                                <option value="order placed">Order placed</option>
-                                                <option value="packed">Packed</option>
-                                                <option value="shipped">shipped</option>
-                                                <option value="delivered">Delivered</option>
-                                               </select>
-                                                <input type="submit" value="submit" class="btn">
-                                            </form></td>
-                                             {{/if}}
-                                             
-                                        </tr>
-                                       {{/each}}
-                                        {{/each}}
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Order Details</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Created Date</th>
+                            <th>paymentMethod</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>User_id</th>
+                            <th>Product_id</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Created Date</th>
+                            <th>paymentMethod</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                            <th>status</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each order}}
 
-                </div>
-                <!-- /.container-fluid -->
+                        {{#each orderItems}}
+                        <tr>
+                            <td>{{../user.name}}</td>
+                            <td>{{productName}}</td>
+                            <td>{{quantity}}</td>
+                            <td>{{price}}</td>
+                            <td>{{../createdAt}}</td>
+                            <td>{{../PaymentMethod}}</td>
+                            <td>{{status}}</td>
+                            <td>{{../shippingAddress}}</td>
+                            <td>
+                                <form action="/admin/order/{{_id}}" method="get">
+                                    {{#if cancel}}
+                                    <button value="cancelled" class="btn  text-danger">Cancelled</button>
+                            <td>Product Cancelled</td>
+                            {{else}}
+                            <input type="submit" value="cancel" class="btn ">
 
+                            </form>
+                            </td>
+                            <td>
+                                <form action="/admin/order/{{_id}}" method="post">
+                                    <p>Current Status : {{status}}</p>
+                                    <input type="text" value="{{product_id}}" class="d-none" name="product_id">
+                                    <select name="status" id="">
+                                        <option value="order placed">Order placed</option>
+                                        <option value="packed">Packed</option>
+                                        <option value="shipped">shipped</option>
+                                        <option value="delivered">Delivered</option>
+                                    </select>
+                                    <input type="submit" value="submit" class="btn">
+                                </form>
+                            </td>
+                            {{/if}}
+
+                        </tr>
+                        {{/each}}
+                        {{/each}}
+
+                    </tbody>
+                </table>
             </div>
-            <!-- End of Main Content -->
-            <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="/js/demo/datatables-demo.js"></script>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>

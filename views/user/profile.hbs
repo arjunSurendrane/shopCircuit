@@ -1,153 +1,285 @@
+<!-- ...:::: Start Account Dashboard Section:::... -->
+<div class="account-dashboard mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+                <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+                    <ul role="tablist" class="nav flex-column dashboard-list">
+                        <li><a href="/profile"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover active">Dashboard</a>
+                        </li>
+                        <li> <a href="/profileOrders"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Pending Orders</a></li>
+                        <li> <a href="/deliveredOrders"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Delivered Orders</a></li>
 
-    <!-- ...:::: Start Account Dashboard Section:::... -->
-    <div class="account-dashboard mt-5 mb-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-3 col-lg-3">
-                    <!-- Nav tabs -->
-                    <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
-                        <ul role="tablist" class="nav flex-column dashboard-list">
-                            <li><a href="#dashboard" data-bs-toggle="tab"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover active">Dashboard</a>
-                            </li>
-                            <li> <a href="#orders" data-bs-toggle="tab"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover">Orders</a></li>
-                            <li><a href="#downloads" data-bs-toggle="tab"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover">Downloads</a></li>
-                            <li><a href="#address" data-bs-toggle="tab"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover">Addresses</a></li>
-                            <li><a href="#account-details" data-bs-toggle="tab"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover">Account details</a>
-                            </li>
-                            <li><a href="/logout"
-                                    class="nav-link btn btn-block btn-md btn-black-default-hover">logout</a></li>
-                        </ul>
-                    </div>
+
+                        <li><a href="/address"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover ">Addresses</a></li>
+                        <li><a href="/accountDetails"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Account details</a>
+                        </li>
+                        <li><a href="/logout" class="nav-link btn btn-block btn-md btn-black-default-hover">logout</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-sm-12 col-md-9 col-lg-9">
-                    <!-- Tab panes -->
-                    <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
-                        <div class="tab-pane fade show active" id="dashboard">
-                            <h4>Dashboard </h4>
-                            <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent
-                                    orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a
-                                    href="#">Edit your password and account details.</a></p>
-                        </div>
-                        <div class="tab-pane fade" id="orders">
-                            <h4>Orders</h4>
-                            <div class="table_page table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Order</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Address</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each order}}
-                                        {{#each orderItems}}
-                                        <tr>
-                                            <td>{{productName}}</td>
-                                            <td>{{../createdAt}}</td>
-                                            <td><span class="success">completed</span></td>
-                                            <td>{{price}} for {{quantity}} item </td>
-                                            <td>{{../shippingAddress}}</td>
-                                            {{#if cancel}}
-                                            <td>Cancelled</td>
-                                                <td> <p class="text-danger">order cancelled</p> </td>
-                                            {{else}}
-                                                <td>{{status}}</td>
-                                                <td><a href="/order/cancel/{{_id}}" class="view">cancel</a></td>
-                                            {{/if}}
-                                        </tr>
-                                        {{/each}}
-                                        {{/each}}
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="downloads">
-                            <h4>Downloads</h4>
-                            <div class="table_page table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Downloads</th>
-                                            <th>Expires</th>
-                                            <th>Download</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Shopnovilla - Free Real Estate PSD Template</td>
-                                            <td>May 10, 2018</td>
-                                            <td><span class="danger">Expired</span></td>
-                                            <td><a href="#" class="view">Click Here To Download Your File</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Organic - ecommerce html template</td>
-                                            <td>Sep 11, 2018</td>
-                                            <td>Never</td>
-                                            <td><a href="#" class="view">Click Here To Download Your File</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="address">
-                            <p>The following addresses will be used on the checkout page by default.</p>
-                            <h5 class="billing-address">Billing address</h5>
-                            <p><strong>{{user.name}}</strong></p>
-                            {{#with user}}
-                            {{#each address}}
-                            <address>
-                               <strong>House Name</strong> : {{BuildingName}} <br>
-                               <strong>City</strong> : {{Locality}},{{city}} <br>
-                               <strong>Pincode</strong> : {{Pincode}} <br>
-                               <strong>Landmark</strong> : {{Landmark}}
-                            </address>
-                            <hr>
-                            {{/each}}
-                            {{/with}}
-                        </div>
-                        <div class="tab-pane fade" id="account-details">
-                            <h3>Account details </h3>
-                            <div class="login">
-                                <div class="login_form_container">
-                                    <div class="account_login_form">
-                                        <form id="userDetails">
-                                            {{#with user}}
-                                            <div class="default-form-box mb-20">
-                                                <label>Name</label>
-                                                <input type="text" name="name" value="{{name}}" id="name">
-                                            </div>
-                                          
-                                            <div class="default-form-box mb-20">
-                                                <label>Email</label>
-                                                <input type="text" name="email" value="{{email}}" id="email">
-                                            </div>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <h4>Dashboard </h4>
+                        <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent
+                                orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a
+                                href="#">Edit your password and account details.</a></p>
+                    </div>
+                    <div class="tab-pane fade" id="orders">
+                        <h4>Pending Orders</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Shipping Address</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th>Invoice</th>
 
-                                            <div class="default-form-box mb-20">
-                                                <label>Mobile Number</label>
-                                                <input type="text" name="mob" value="{{mob}}" id="mob">
-                                            </div>
-                                   
-                                          {{/with}}
-                                          
-                                         
-                                            <div class="save_button mt-3">
-                                                <button class="btn btn-md btn-black-default-hover"
-                                                    type="submit">Save</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    </tr>
+                                </thead>
+                                {{!-- <tbody>
+                                    {{#each order}}
+                                    {{#each orderItems}}
+                                    <tr>
+                                        <td>{{productName}}</td>
+                                        <td>{{../createdAt}}</td>
+                                        <td><span class="success">completed</span></td>
+                                        <td>{{price}} for {{quantity}} item </td>
+                                        <td>{{../shippingAddress}}</td>
+                                        {{#if cancel}}
+                                        <td>Cancelled</td>
+                                        <td>
+                                            <p class="text-danger">order cancelled</p>
+                                        </td>
+                                        {{else}}
+                                        {{#if ../delivery}}
+                                        <td>{{status}}</td>
+                                        {{#if ../return}}
+                                        <td>item return with in 2 days</td>
+                                        {{else}}
+                                        <td><a href="/order/return/{{_id}}" class="view">Return</a></td>
+                                        {{/if}}
+
+                                        {{else}}
+                                        <td>{{status}}</td>
+                                        <td><a href="/order/cancel/{{_id}}" class="view">cancel</a></td>
+                                        {{/if}}
+                                        {{/if}}
+                                        {{#if ../return}}
+                                        <td><a href="/invoice/{{../_id}}"> View Order Details</a></td>
+                                        {{else}}
+                                        <td><a class="btn bg-dark text-white" href="/invoice/{{../_id}}">Download</a>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{/each}}
+
+                                </tbody> --}}
+                                <tbody>
+                                    {{#each pendingOrder}}
+                                    <tr>
+                                        <td>
+                                            {{#each orderItems}}
+                                            | {{productName}} |
+                                            {{/each}}
+                                        </td>
+                                        <td>{{createdAt}}</td>
+                                        <td>{{shippingAddress}}</td>
+                                        <td>{{totalPrice}}</td>
+                                        {{#if return}}
+                                        <td><strong class="text-danger">Return Order</strong></td>
+                                        {{else}}
+                                        <td>{{orderItems.[0].status}}</td>
+                                        {{/if}}
+                                        <td><a href="/orderDetail/{{_id}}">View Order </a>
+
+                                        </td>
+                                        <td><a class="btn bg-dark text-white" href="/invoice/{{_id}}">Invoice</a>
+                                        </td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="deliveredOrders">
+                        <h4>Delivered Orders</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Shipping Address</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th>Invoice</th>
+
+                                    </tr>
+                                </thead>
+                                {{!-- <tbody>
+                                    {{#each order}}
+                                    {{#each orderItems}}
+                                    <tr>
+                                        <td>{{productName}}</td>
+                                        <td>{{../createdAt}}</td>
+                                        <td><span class="success">completed</span></td>
+                                        <td>{{price}} for {{quantity}} item </td>
+                                        <td>{{../shippingAddress}}</td>
+                                        {{#if cancel}}
+                                        <td>Cancelled</td>
+                                        <td>
+                                            <p class="text-danger">order cancelled</p>
+                                        </td>
+                                        {{else}}
+                                        {{#if ../delivery}}
+                                        <td>{{status}}</td>
+                                        {{#if ../return}}
+                                        <td>item return with in 2 days</td>
+                                        {{else}}
+                                        <td><a href="/order/return/{{_id}}" class="view">Return</a></td>
+                                        {{/if}}
+
+                                        {{else}}
+                                        <td>{{status}}</td>
+                                        <td><a href="/order/cancel/{{_id}}" class="view">cancel</a></td>
+                                        {{/if}}
+                                        {{/if}}
+                                        {{#if ../return}}
+                                        <td><a href="/invoice/{{../_id}}"> View Order Details</a></td>
+                                        {{else}}
+                                        <td><a class="btn bg-dark text-white" href="/invoice/{{../_id}}">Download</a>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{/each}}
+
+                                </tbody> --}}
+                                <tbody>
+                                    {{#each deliveredProduct}}
+                                    <tr>
+                                        <td>
+                                            {{#each orderItems}}
+                                            | {{productName}} |
+                                            {{/each}}
+                                        </td>
+                                        <td>{{createdAt}}</td>
+                                        <td>{{shippingAddress}}</td>
+                                        <td>{{totalPrice}}</td>
+                                        {{#if return}}
+                                        <td><strong class="text-danger">Return Order</strong></td>
+                                        {{else}}
+                                        <td>{{orderItems.[0].status}}</td>
+                                        {{/if}}
+                                        <td><a href="/orderDetail/{{_id}}">View Order </a>
+                                        <td><a class="btn bg-dark text-white" href="/invoice/{{_id}}">Invoice</a>
+                                        </td>
+
+                                        </td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane fade" id="downloads">
+                        <h4>Downloads</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Downloads</th>
+                                        <th>Expires</th>
+                                        <th>Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Shopnovilla - Free Real Estate PSD Template</td>
+                                        <td>May 10, 2018</td>
+                                        <td><span class="danger">Expired</span></td>
+                                        <td><a href="#" class="view">Click Here To Download Your File</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Organic - ecommerce html template</td>
+                                        <td>Sep 11, 2018</td>
+                                        <td>Never</td>
+                                        <td><a href="#" class="view">Click Here To Download Your File</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="address">
+                        <p>The following addresses will be used on the checkout page by default.</p>
+                        <h5 class="billing-address">Billing address</h5>
+                        <p><strong>{{user.name}}</strong></p>
+                        {{#with user}}
+                        {{#each address}}
+                        <address>
+                            <strong>House Name</strong> : {{BuildingName}} <br>
+                            <strong>City</strong> : {{Locality}},{{city}} <br>
+                            <strong>Pincode</strong> : {{Pincode}} <br>
+                            <strong>Landmark</strong> : {{Landmark}}
+                        </address>
+                        <hr>
+                        {{/each}}
+                        {{/with}}
+                    </div>
+                    <div class="tab-pane fade" id="account-details">
+                        <h3>Account details </h3>
+                        <div class="login">
+                            <div class="login_form_container">
+                                <div class="account_login_form">
+                                    <form id="userDetails">
+                                        {{#with user}}
+                                        <div class="default-form-box mb-20">
+                                            <label>Name</label>
+                                            <input type="text" name="name" value="{{name}}" id="name">
+                                        </div>
+
+                                        <div class="default-form-box mb-20">
+                                            <label>Email</label>
+                                            <input type="text" name="email" value="{{email}}" id="email">
+                                        </div>
+
+                                        <div class="default-form-box mb-20">
+                                            <label>Mobile Number</label>
+                                            <input type="text" name="mob" value="{{mob}}" id="mob">
+                                        </div>
+
+                                        {{/with}}
+
+
+                                        <div class="save_button mt-3">
+                                            <button class="btn btn-md btn-black-default-hover"
+                                                type="submit">Save</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -155,30 +287,34 @@
                 </div>
             </div>
         </div>
-    </div> <!-- ...:::: End Account Dashboard Section:::... -->
-    <script>
-        const update = document.getElementById('userDetails')
-        update.addEventListener('submit',async el =>{
-            el.preventDefault()
-            const name = document.getElementById('name').value
-            const email = document.getElementById('email').value
-            const mob = document.getElementById('mob').value
-            try{
-                const res = await axios({
-                    method:'post',
-                    url:'/profile',
-                    data:{
-                        name,
-                        email,
-                        mob
-                    }
-                })
-                if(res.data.status == 'success'){
-                    location.reload(true)
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
+<script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+<script>
+    const update = document.getElementById('userDetails')
+    update.addEventListener('submit', async el => {
+        el.preventDefault()
+        const name = document.getElementById('name').value
+        const email = document.getElementById('email').value
+        const mob = document.getElementById('mob').value
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/profile',
+                data: {
+                    name,
+                    email,
+                    mob
                 }
-            }catch(err){
-                console.log(err)
-                alert(err.response.data.message)
+            })
+            if (res.data.status == 'success') {
+                location.reload(true)
             }
-        })
-    </script>
+        } catch (err) {
+            console.log(err)
+            alert(err.response.data.message)
+        }
+    })
+
+
+</script>

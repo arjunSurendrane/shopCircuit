@@ -3,216 +3,209 @@
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Sales Report</h1>
-    <a
-      href="#"
-      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-    ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    <button onclick="tableToExcel()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        class="fas fa-download fa-sm text-white-50"></i> Generate Report</button>
   </div>
 
   <!-- Content Row -->
+
   <div class="row">
-
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
-              >
-                Earnings (Monthly)</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">₹ {{totalAmount}}</div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-3">
+      <label for="Year">Year</label>
+      <select type="Number" class="form-control" name="Year" id="year">
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+      </select>
     </div>
-
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-success text-uppercase mb-1"
-              >
-                Pending Amount</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">₹ {{pendingAmount}}</div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-3">
+      <label for="Month">Month</label>
+      <select type="Number" class="form-control" name="Month" id="month">
+        <option value="{{month}}">{{month}}</option>
+        <option value="00">0</option>
+        <option value="01">1</option>
+        <option value="02">2</option>
+        <option value="03">3</option>
+        <option value="04">4</option>
+        <option value="05">5</option>
+        <option value="06">6</option>
+        <option value="07">7</option>
+        <option value="08">8</option>
+        <option value="09">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
     </div>
+    <div class="col-3">
+      <label for="Day">Date</label>
+      <select type="Number" class="form-control" name="Day" id="date">
+        <option value="{{day}}">{{day}}</option>
+        <option value="00">0</option>
+        <option value="01">1</option>
+        <option value="02">2</option>
+        <option value="03">3</option>
+        <option value="04">4</option>
+        <option value="05">5</option>
+        <option value="06">6</option>
+        <option value="07">7</option>
+        <option value="08">8</option>
+        <option value="09">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="12">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-info shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-info text-uppercase mb-1"
-              >Completed Payment
-              </div>
-              <div class="row no-gutters align-items-center">
-                <div class="col-auto">
-                  <div
-                    class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
-                  >{{completeOrders.length}}</div>
-                </div>
-             
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+      </select>
     </div>
-
-    <!-- Pending Requests Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-warning shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-warning text-uppercase mb-1"
-              >
-                Pending Payment</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingOrders.length}}</div>
-            </div>
-           <div class="col-auto">
-              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-3">
+      <label for="">click the button</label><br>
+      <button class="btn bg-dark text-white" onclick="filterSales()">Filter</button>
     </div>
   </div>
 
-  <div class="card-header py-3 d-flex justify-content-between">
+  {{!-- <div class="card-header py-3 d-flex justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Payment Completed Orders</h6>
-    <a href="/admin/productAdd"><h6
-        class="m-0 font-weight-bold text-primary"
-      >Add Product</h6></a>
-  </div>
+    <a href="/admin/productAdd">
+      <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+    </a>
+  </div> --}}
+  {{#if salesReports}}
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>User Name</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                          <th>User_id</th>
-                                            <th>Product_id</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                            
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                      {{#each completeOrders}}
-                                       
-                                      
-                                        <tr>
-                                            <td>{{_id}}</td>
-                                            <td>{{user.name}}</td>
-                                            <td>{{user.mob}}</td>
-                                            <td>{{PaymentMethod}}</td>
-                                            <td>{{totalPrice}}</td>
-                                            <td>{{createdAt}}</td>
-                                            <td>{{shippingAddress}}</td>
-                                         
-                                            
-                                             
-                                        </tr>
-                                  
-                                        {{/each}}
-                                        
-                                    </tbody>
-                                </table>
+        <thead>
+          <tr>
+            <th>Order Id</th>
+            <th>User Id</th>
+            <th>Payment Method</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each salesReports}}
+
+
+          <tr>
+            <td>{{_id}}</td>
+            <td>{{user}}</td>
+            <td>{{PaymentMethod}}</td>
+            <td>{{totalPrice}}</td>
+            <td>{{createdAt}}</td>
+            <td>Delivery Completed</td>
+
+
+
+          </tr>
+
+          {{/each}}
+
+        </tbody>
+      </table>
     </div>
   </div>
 
+  {{/if}}
 
-  <div class="card-header py-3 d-flex justify-content-between">
+  {{!-- <div class="card-header py-3 d-flex justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Payment Pending Orders</h6>
-    <a href="/admin/productAdd"><h6
-        class="m-0 font-weight-bold text-primary"
-      >Add Product</h6></a>
+    <a href="/admin/productAdd">
+      <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+    </a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>User Name</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                          <th>User_id</th>
-                                            <th>Product_id</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Created Date</th>
-                                            <th>paymentMethod</th>
-                                            <th>Status</th>
-                                            
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                      {{#each pendingOrders}}
-                                       
-                                      
-                                        <tr>
-                                            <td>{{_id}}</td>
-                                            <td>{{user.name}}</td>
-                                            <td>{{user.mob}}</td>
-                                            <td>{{PaymentMethod}}</td>
-                                            <td>{{totalPrice}}</td>
-                                            <td>{{createdAt}}</td>
-                                            <td>{{shippingAddress}}</td>
-                                         
-                                            
-                                             
-                                        </tr>
-                                  
-                                        {{/each}}
-                                        
-                                    </tbody>
-                                </table>
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Created Date</th>
+            <th>paymentMethod</th>
+            <th>Status</th>
+
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>User_id</th>
+            <th>Product_id</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Created Date</th>
+            <th>paymentMethod</th>
+            <th>Status</th>
+
+          </tr>
+        </tfoot>
+        <tbody>
+          {{#each salesReports}}
+
+
+          <tr>
+            <td>{{_id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.mob}}</td>
+            <td>{{PaymentMethod}}</td>
+            <td>{{totalPrice}}</td>
+            <td>{{createdAt}}</td>
+            <td>{{shippingAddress}}</td>
+
+
+
+          </tr>
+
+          {{/each}}
+
+        </tbody>
+      </table>
     </div>
-  </div>
+  </div> --}}
 
 </div>
+<script>
+  async function filterSales() {
+    const year = document.getElementById('year').value
+    const month = document.getElementById('month').value
+    const day = document.getElementById('date').value
+    console.log(`/admin/salesReport?year=${year}&month=${month}&day=${day}`)
+    location.assign(`/admin/sales?year=${year}&month=${month}&day=${day}`)
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+  crossorigin="anonymous"></script>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js">
+</script>
+<script>
+
+  function tableToExcel() {
+    console.log('inside function')
+    $("#dataTable").table2excel({
+      filename: "excel_sheet-name.xls"
+    });
+  }
+</script>

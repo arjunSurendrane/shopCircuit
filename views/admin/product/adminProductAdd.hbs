@@ -1,3 +1,50 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
+<style>
+  .page {
+    margin: 1em auto;
+    max-width: 768px;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
+  .box {
+    padding: 0.5em;
+    width: 100%;
+    margin: 0.5em;
+  }
+
+  .box-2 {
+    padding: 0.5em;
+    width: calc(100% / 2 - 1em);
+  }
+
+  .options label,
+  .options input {
+    width: 4em;
+    padding: 0.5em 1em;
+  }
+
+  .btn {
+    background: white;
+    color: black;
+    border: 1px solid black;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    margin: 0.8em 0.3em;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  img {
+    max-width: 100%;
+  }
+</style>
 <div class="container">
 
   <!-- Outer Row -->
@@ -17,144 +64,111 @@
                 </div>
                 <form class="user productAdd">
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="productName"
-                      placeholder="Enter Product name..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="productName"
+                      placeholder="Enter Product name..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="brand"
-                      placeholder="Enter brand..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="brand" placeholder="Enter brand..."
+                      required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="varient"
-                      placeholder="Enter varient..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="varient"
+                      placeholder="Enter varient..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="color"
-                      placeholder="Enter color..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="color" placeholder="Enter color..."
+                      required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="price"
-                      placeholder="Enter price..."
-                      required
-                    />
+                    <input type="number" class="form-control form-control-user" id="price" placeholder="Enter price..."
+                      required />
                   </div>
                   <div class="form-group">
                     <select name="category" id="category" class="form-control">
                       {{#each category}}
-                        <option value="{{_id}}">{{categoryName}}</option>
+                      <option value="{{_id}}">{{categoryName}}</option>
                       {{/each}}
                     </select>
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="quantity"
-                      placeholder="Enter quantity..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="quantity"
+                      placeholder="Enter quantity..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="offer_name"
-                      placeholder="Enter offer name..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="offer_name"
+                      placeholder="Enter offer name..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="number"
-                      class="form-control form-control-user"
-                      id="discount"
-                      placeholder="Enter discount..."
-                      required
-                    />
+                    <input type="number" class="form-control form-control-user" id="discount"
+                      placeholder="Enter discount..." required />
                   </div>
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="discription"
-                      placeholder="Enter discription..."
-                      required
-                    />
+                    <input type="text" class="form-control form-control-user" id="discription"
+                      placeholder="Enter discription..." required />
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div>
+                        <label for="photo" class="form-label image">Choose product
+                          photo 1</label>
+                        {{! <input class="form-control" type="file" id="formFile"> }}
+                        <input type="file" class="form_upload box" accept="image/*" id="photo1" name="image"
+                          accept="image/*" />
+                        <img id="image1" src="">
+                      </div>
+                      <div>
+                        <label for="photo" class="form-label image">Choose product
+                          photo 2</label>
+                        {{! <input class="form-control" type="file" id="formFile"> }}
+                        <input type="file" class="form_upload box" accept="image/*" id="photo2" name="image"
+                          accept="image/*" />
+                        <img id="image2" src="">
+
+                      </div>
+                      <div>
+                        <label for="photo" class="form-label image">Choose product
+                          photo 3</label>
+                        {{! <input class="form-control" type="file" id="formFile"> }}
+                        <input type="file" class="form_upload box" accept="image/*" id="photo3" name="image"
+                          accept="image/*" />
+                        <img id="image3" src="">
+
+                      </div>
+                      <div>
+                        <label for="photo" class="form-label image">Choose product
+                          photo 4</label>
+                        {{! <input class="form-control" type="file" id="formFile"> }}
+                        <input type="file" class="form_upload box" accept="image/*" id="photo4" name="image"
+                          accept="image/*" />
+                        <img id="image4" src="">
+
+                      </div>
+                      <input type="submit" value="Save" class="btn" />
+
+                    </div>
+                    <div class="col-8">
+                      <div class="box-2">
+                        <div class="result"></div>
+                      </div>
+                      <!--rightbox-->
+                      <div class="box-2 img-result hide">
+                        <!-- result of crop -->
+                        <img class="cropped" src="" alt="" />
+                      </div>
+                      <!-- input file -->
+                      <div class="box">
+                        <div class="options hide d-none">
+                          <label> Width</label>
+                          <input type="number" class="img-w" value="300" min="100" max="1200" />
+                        </div>
+
+                        <!-- save btn -->
+                        <button class="btn save hide">Save</button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <label for="photo" class="form-label image">Choose product
-                      photo 1</label>
-                    {{! <input class="form-control" type="file" id="formFile"> }}
-                    <input
-                      type="file"
-                      class="form_upload"
-                      accept="image/*"
-                      id="photo1"
-                      name="image"
-                    />
-                  </div>
-                  <div>
-                    <label for="photo" class="form-label image">Choose product
-                      photo 2</label>
-                    {{! <input class="form-control" type="file" id="formFile"> }}
-                    <input
-                      type="file"
-                      class="form_upload"
-                      accept="image/*"
-                      id="photo2"
-                      name="image"
-                    />
-                  </div>
-                  <div>
-                    <label for="photo" class="form-label image">Choose product
-                      photo 3</label>
-                    {{! <input class="form-control" type="file" id="formFile"> }}
-                    <input
-                      type="file"
-                      class="form_upload"
-                      accept="image/*"
-                      id="photo3"
-                      name="image"
-                    />
-                  </div>
-                  <div>
-                    <label for="photo" class="form-label image">Choose product
-                      photo 4</label>
-                    {{! <input class="form-control" type="file" id="formFile"> }}
-                    <input
-                      type="file"
-                      class="form_upload"
-                      accept="image/*"
-                      id="photo4"
-                      name="image"
-                    />
-                  </div>
-                  <input type="submit" value="Save" class="btn" />
-                  <hr />
+
                 </form>
               </div>
             </div>
@@ -167,4 +181,266 @@
   </div>
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+<script>
+  // vars
+  let result = document.querySelector(".result"),
+    img_result = document.querySelector(".img-result"),
+    img_w = document.querySelector(".img-w"),
+    img_h = document.querySelector(".img-h"),
+    options = document.querySelector(".options"),
+    save = document.querySelector(".save"),
+    cropped = document.querySelector(".cropped"),
+    dwn = document.querySelector(".download"),
+    upload1 = document.querySelector("#photo1"),
+    upload2 = document.querySelector("#photo2"),
+    upload3 = document.querySelector("#photo3"),
+    upload4 = document.querySelector("#photo4"),
+
+    cropper1 = "";
+  cropper2 = "";
+  cropper3 = "";
+  cropper4 = "";
+
+
+
+  upload1.addEventListener("change", e => {
+    const img_data1 = upload1.files[0]
+    if (e.target.files.length) {
+      // start file reader
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target.result) {
+          // create new image
+          let img = document.createElement("img");
+          img.id = "image";
+          img.src = e.target.result;
+          // clean result before
+          result.innerHTML = "";
+          // append new image
+          result.appendChild(img);
+          // show save btn and options
+          save.classList.remove("hide");
+          options.classList.remove("hide");
+          // init cropper
+          cropper1 = new Cropper(img);
+        }
+
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    // save on click
+    save.addEventListener("click", (e) => {
+      e.preventDefault();
+      // get result to data uri
+      cropper1.getCroppedCanvas().toBlob((blob) => {
+        let fileInputElement1 = document.getElementById(`photo1`);
+        console.log(fileInputElement1)
+        let file = new File([blob], img_data1.name, { type: "image/*", lastModified: new Date().getTime() });
+        let container = new DataTransfer();
+        container.items.add(file);
+        fileInputElement1.files = container.files;
+      })
+      console.log(img_data1)
+
+      let imgSrc = cropper1
+        .getCroppedCanvas({
+          width: img_w.value, // input value
+        })
+        .toDataURL();
+      // remove hide class of img
+      cropped.classList.remove("hide");
+      img_result.classList.remove("hide");
+      // show image cropped
+      console.log(document.getElementById(`image1`))
+      document.getElementById(`image1`).src = `${imgSrc}`
+      cropped.src = imgSrc;
+      dwn.classList.remove("hide");
+      dwn.download = "imagename.png";
+      dwn.setAttribute("href", imgSrc);
+      return;
+    });
+  });
+
+
+
+  upload2.addEventListener("change", e => {
+    const img_data2 = upload2.files[0]
+    if (e.target.files.length) {
+      // start file reader
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target.result) {
+          // create new image
+          let img = document.createElement("img");
+          img.id = "image";
+          img.src = e.target.result;
+          // clean result before
+          result.innerHTML = "";
+          // append new image
+          result.appendChild(img);
+          // show save btn and options
+          save.classList.remove("hide");
+          options.classList.remove("hide");
+          // init cropper
+          cropper2 = new Cropper(img);
+        }
+
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    // save on click
+    save.addEventListener("click", (e) => {
+      e.preventDefault();
+      // get result to data uri
+      cropper2.getCroppedCanvas().toBlob((blob) => {
+        let fileInputElement2 = document.getElementById(`photo2`);
+        console.log(fileInputElement2)
+        let file = new File([blob], img_data2.name, { type: "image/*", lastModified: new Date().getTime() });
+        let container = new DataTransfer();
+        container.items.add(file);
+        fileInputElement2.files = container.files;
+      })
+      console.log(img_data2)
+
+      let imgSrc = cropper2
+        .getCroppedCanvas({
+          width: img_w.value, // input value
+        })
+        .toDataURL();
+      // remove hide class of img
+      cropped.classList.remove("hide");
+      img_result.classList.remove("hide");
+      // show image cropped
+      console.log(document.getElementById(`image2`))
+      document.getElementById(`image2`).src = `${imgSrc}`
+      cropped.src = imgSrc;
+      dwn.classList.remove("hide");
+      dwn.download = "imagename.png";
+      dwn.setAttribute("href", imgSrc);
+      return;
+    });
+  });
+
+
+  upload3.addEventListener("change", e => {
+    const img_data3 = upload3.files[0]
+    if (e.target.files.length) {
+      // start file reader
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target.result) {
+          // create new image
+          let img = document.createElement("img");
+          img.id = "image";
+          img.src = e.target.result;
+          // clean result before
+          result.innerHTML = "";
+          // append new image
+          result.appendChild(img);
+          // show save btn and options
+          save.classList.remove("hide");
+          options.classList.remove("hide");
+          // init cropper
+          cropper3 = new Cropper(img);
+        }
+
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    // save on click
+    save.addEventListener("click", (e) => {
+      e.preventDefault();
+      // get result to data uri
+      cropper3.getCroppedCanvas().toBlob((blob) => {
+        let fileInputElement3 = document.getElementById(`photo3`);
+        console.log(fileInputElement3)
+        let file = new File([blob], img_data3.name, { type: "image/*", lastModified: new Date().getTime() });
+        let container = new DataTransfer();
+        container.items.add(file);
+        fileInputElement3.files = container.files;
+      })
+      console.log(img_data3)
+
+      let imgSrc = cropper3
+        .getCroppedCanvas({
+          width: img_w.value, // input value
+        })
+        .toDataURL();
+      // remove hide class of img
+      cropped.classList.remove("hide");
+      img_result.classList.remove("hide");
+      // show image cropped
+      console.log(document.getElementById(`image3`))
+      document.getElementById(`image3`).src = `${imgSrc}`
+      cropped.src = imgSrc;
+      dwn.classList.remove("hide");
+      dwn.download = "imagename.png";
+      dwn.setAttribute("href", imgSrc);
+      return;
+    });
+  });
+
+
+  upload4.addEventListener("change", e => {
+    const img_data4 = upload4.files[0]
+    if (e.target.files.length) {
+      // start file reader
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target.result) {
+          // create new image
+          let img = document.createElement("img");
+          img.id = "image";
+          img.src = e.target.result;
+          // clean result before
+          result.innerHTML = "";
+          // append new image
+          result.appendChild(img);
+          // show save btn and options
+          save.classList.remove("hide");
+          options.classList.remove("hide");
+          // init cropper
+          cropper4 = new Cropper(img);
+        }
+
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    // save on click
+    save.addEventListener("click", (e) => {
+      e.preventDefault();
+      // get result to data uri
+      cropper4.getCroppedCanvas().toBlob((blob) => {
+        let fileInputElement4 = document.getElementById(`photo4`);
+        console.log(fileInputElement4)
+        let file = new File([blob], img_data4.name, { type: "image/*", lastModified: new Date().getTime() });
+        let container = new DataTransfer();
+        container.items.add(file);
+        fileInputElement4.files = container.files;
+      })
+      console.log(img_data4)
+
+      let imgSrc4 = cropper4
+        .getCroppedCanvas({
+          width: img_w.value, // input value
+        })
+        .toDataURL();
+      // remove hide class of img
+      cropped.classList.remove("hide");
+      img_result.classList.remove("hide");
+      // show image cropped
+      console.log(document.getElementById(`image4`))
+      document.getElementById(`image4`).src = `${imgSrc4}`
+      cropped.src = imgSrc4;
+      dwn.classList.remove("hide");
+      dwn.download = "imagename.png";
+      dwn.setAttribute("href", imgSrc4);
+      return;
+    });
+  });
+
+
+
+</script>
 <script src="/js/admin_manage.js"></script>

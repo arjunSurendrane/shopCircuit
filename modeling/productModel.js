@@ -22,8 +22,8 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'product must have price']
     },
-    discountPrice:{
-        type:Number
+    discountPrice: {
+        type: Number
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -46,12 +46,12 @@ const ProductSchema = new mongoose.Schema({
     },
     image: [String]
 
-})
+}, { timestamps: true })
 
 ProductSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'category',
-        select: ['categoryName','offer']
+        select: ['categoryName', 'offer']
     })
     next()
 })

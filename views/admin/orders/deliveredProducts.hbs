@@ -1,0 +1,94 @@
+<!-- Begin Page Content -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<div class="container-fluid mt-5">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Delivery Ordesr</h1>
+    {{!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank"
+            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Order Details</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Created Date</th>
+                            <th>paymentMethod</th>
+                            <th>Status</th>
+                            <th>Address</th>
+
+                            <th>status</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each order}}
+
+                        {{#each orderItems}}
+                        <tr>
+                            <td>{{../user.name}}</td>
+                            <td>{{productName}}</td>
+                            <td>{{quantity}}</td>
+                            <td>{{price}}</td>
+                            <td>{{../createdAt}}</td>
+                            <td>{{../PaymentMethod}}</td>
+                            {{#if ../return}}
+                            <td class="text-danger">Return</td>
+                            {{else}}
+                            <td class="text-success">Delivered</td>
+                            {{/if}}
+                            <td>{{../shippingAddress}}</td>
+                            {{#if ../return}}
+                            <td>
+                                Return Product
+
+                            </td>
+                            {{else}}
+                            <td>
+                                Delivered Product
+                            </td>
+                            {{/if}}
+
+                        </tr>
+                        {{/each}}
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<script>
+    async function approveReturn(id) {
+        const res = await axios({
+            method: 'post',
+            url: `/admin/orderReturn/approve/${id}`
+        })
+        console.log(res)
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>

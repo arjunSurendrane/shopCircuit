@@ -14,19 +14,21 @@ const response = (content, statusCode, res) => {
     })
 }
 
-// const multerStorage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'public/images');
-//     },
-//     filename: (req, file, cb) => {
-//         const ext = file.mimetype.split('/')[1];
-//         cb(null, `user-${req.body.productName}-${Date.now()}.${ext}`)
-//     }
-// })
+const multerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images');
+    },
+    filename: (req, file, cb) => {
+        // const ext = file.mimetype.split('/')[1];
+        const ext = 'jpg'
+        cb(null, `product-${req.body.productName}-${Date.now()}.${ext}`)
+    }
+})
 
-const multerStorage = multer.memoryStorage()
+// const multerStorage = multer.memoryStorage()
 
 const multerFilter = (req, file, cb) => {
+    console.log(file)
     if (file.mimetype.startsWith('image')) {
         cb(null, true)
     } else {
@@ -46,25 +48,26 @@ exports.uploadImage = upload.fields([
 // exports.uploadImage = upload.single('image');
 
 exports.resizeProductImage = catchAsync(async (req, res, next) => {
-    console.log(req.files.image)
-    if (!req.files.image) {
-        return next()
-    }
+    console.log(req.body, req.files)
+    next()
+    // if (!req.body.image) {
+    //     return next()
+    // }
 
-    req.body.images = []
-    await Promise.all(
-        req.files.image.map(async (file, i) => {
-            const filename = `product-${req.body.productName}-${i + 1}.jpeg`;
-            await sharp(file.buffer)
-                .resize(500, 500)
-                .toFormat('jpeg')
-                .jpeg({ quality: 90 })
-                .toFile(`public/images/${filename}`)
-            req.body.images.push(filename);
-        })
-    )
+    // req.body.images = []
+    // await Promise.all(
+    //     req.files.image.map(async (file, i) => {
+    //         const filename = `product-${req.body.productName}-${i + 1}.jpeg`;
+    //         await sharp(file.buffer)
+    //             .resize(500, 500)
+    //             .toFormat('jpeg')
+    //             .jpeg({ quality: 90 })
+    //             .toFile(`public/images/${filename}`)
+    //         req.body.images.push(filename);
+    //     })
+    // )
 
-    next();
+    // next();
 
 })
 
@@ -94,10 +97,13 @@ exports.addProduct = catchAsync(async (req, res, next) => {
         discount,
         discription
     } = req.body
-    let minusPrice = price*discount/100 
-   let  discountPrice = parseInt(price-minusPrice)  
+    let minusPrice = price * discount / 100
+    let discountPrice = parseInt(price - minusPrice)
     // console.log(`file name is ${req.file}`)
-    const image = req.body.images;
+    let image = []
+    req.files.image.forEach(el => {
+        image.push(el.filename)
+    })
     console.log(`this is image name ${image}`)
     const newProduct = await Product.create({
         productName,
@@ -113,6 +119,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
         discription,
         image
     });
+    console.log(newProduct);
     response(newProduct, 200, res)
 })
 
@@ -137,8 +144,8 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
         discount,
         discription
     } = req.body
-    let minusPrice = price*discount/100 
-    let  discountPrice = parseInt(price-minusPrice)
+    let minusPrice = price * discount / 100
+    let discountPrice = parseInt(price - minusPrice)
     // console.log(`file name is ${req.file}`)
     console.log(req.body)
 
@@ -161,7 +168,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
         {
             new: true,
             runValidators: true,
-            upsert:true
+            upsert: true
         });
 
 

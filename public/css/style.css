@@ -459,6 +459,26 @@ legend + * {
     -webkit-appearance: textfield;
 }
 
+#suggetion{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    color: #fff;
+    background: rgba(0,0,0,0);
+    font-size: 21px;
+    font-weight: 300;
+    text-align: center;
+    border: 0;
+    margin: 0 auto;
+    margin-top: -51px;
+    padding-left: 30px;
+    padding-right: 30px;
+    outline: 0;
+    border-bottom: 2px solid #fff;
+}
+
 ::-webkit-search-decoration {
     -webkit-appearance: none;
 }

@@ -89,6 +89,12 @@ CustomerSchema.pre('save', async function (next) {
 
 })
 
+CustomerSchema.methods.hashPassword = async function (password) {
+
+    password = await bcrypt.hash(password, 8)
+    return password
+}
+
 CustomerSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 }

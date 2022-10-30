@@ -1,4 +1,3 @@
-
 const User = require('../../modeling/userModel')
 const catchAsync = require('../../utils/catchAsync')
 const jwt = require('jsonwebtoken');
@@ -10,7 +9,14 @@ const Otp = require('../../modeling/otpModel')
 const otpGenerator = require('otp-generator')
 const _ = require('lodash');
 const Category = require('../../modeling/categoryModel');
+const Whishlist = require('../../modeling/whishlist');
+const Wallet = require('../../modeling/walletModel')
+const Vonage = require('@vonage/server-sdk')
 
+const vonage = new Vonage({
+    apiKey: "f3fca2fa",
+    apiSecret: "NkZvwarYOaAb8hb4"
+})
 
 
 // ------------CREATE TOKEN-------------
@@ -42,6 +48,27 @@ const createSendToken = (user, statusCode, res) => {
 }
 
 
+//---------CHANGE PASSWORD-----------
+exports.changePassword = catchAsync(async (req, res, next) => {
+    const olduser = await User.findOne({ _id: req.user._id }).select('+password');
+    const password = await olduser.hashPassword(req.body.password)
+    console.log(password)
+    const user = await User.findOneAndUpdate(
+        {
+            _id: req.user._id
+        },
+        {
+            password
+        },
+        {
+            new: true
+        })
+    res.status(200).json({
+        status: 'success',
+        user
+    })
+})
+
 
 // ------------USER SIGNUP-----------
 exports.signup = catchAsync(async (req, res, next) => {
@@ -53,6 +80,8 @@ exports.signup = catchAsync(async (req, res, next) => {
         confirmPassword: req.body.confirmPassword,
     });
     const cart = await Cart.create({ user: newUser._id })
+    const wallet = await Wallet.create({ user: newUser._id });
+
     createSendToken(newUser, 200, res)
 })
 
@@ -72,17 +101,89 @@ exports.sendOtp = catchAsync(async (req, res, next) => {
     });
     const number = req.body.number
     console.log(OTP)
-    const accountSid = 'AC2a634dc20e74be40bd0720af45749e07';
-    const authToken = 'f992065b29eb7a0deab502507cdbf0e3';
-    const client = require('twilio')(accountSid, authToken);
-    client.messages
-        .create({
-            body: OTP,
-            messagingServiceSid: 'MG949c6b0885954363817c62edcef07931',
-            to: `+91${number}`
-        })
-        .then(message => console.log(message.sid))
-        .done();
+    // const accountSid = 'ACc7abb0befd71ae37fa75b57987fb0e3c';
+    // const authToken = 'de01691796f9e9ab1953aece86e81315 ';
+    // const twilio = require('twilio');
+    // const client = new twilio(accountSid, authToken);
+    // client.messages
+    //     .create({
+    //         body: OTP,
+    //         messagingServiceSid: 'MG949c6b0885954363817c62edcef07931',
+    //         to: `+91${number}`
+    //     })
+    //     .then(message => console.log(message.sid))
+    //     .done();
+
+
+    const from = "Shop Circuit"
+    const to = `91${number}`
+    const text = `This is your OTP ${OTP}`
+
+    vonage.message.sendSms(from, to, text, (err, responseData) => {
+        if (err) {
+            console.log(err);
+        } else {
+            if (responseData.messages[0]['status'] === "0") {
+                console.log("Message sent successfully.");
+            } else {
+                console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+            }
+        }
+    })
+    const result = await Otp.create({
+        number,
+        otp: OTP
+    })
+
+    res.status(200).json({
+        status: 'success',
+        message: 'otp send successfully'
+    })
+})
+
+
+
+// ------------SEND OTP FOR PASSWORD------------
+exports.sendOtpPassword = catchAsync(async (req, res, next) => {
+    const user = await User.findOne({
+        mob: req.body.number
+    })
+    if (!user) return res.status(400).json({ status: 'failed', message: 'this user cant exist' })
+    const OTP = otpGenerator.generate(6, {
+        digits: true,
+        lowerCaseAlphabets: false,
+        upperCaseAlphabets: false,
+        specialChars: false
+    });
+    const number = req.body.number
+    console.log(OTP)
+    // const accountSid = 'AC2a634dc20e74be40bd0720af45749e07';
+    // const authToken = 'f992065b29eb7a0deab502507cdbf0e3';
+    // const client = require('twilio')(accountSid, authToken);
+    // client.messages
+    //     .create({
+    //         body: OTP,
+    //         messagingServiceSid: 'MG949c6b0885954363817c62edcef07931',
+
+    //         to: `+91${number}`
+    //     })
+    //     .then(message => console.log(message.sid))
+    //     .done();
+    const from = "Shop Circuit"
+    const to = `91${number}`
+    const text = `This is your OTP ${OTP}`
+
+    vonage.message.sendSms(from, to, text, (err, responseData) => {
+        if (err) {
+            console.log(err);
+        } else {
+            if (responseData.messages[0]['status'] === "0") {
+                console.log("Message sent successfully.");
+            } else {
+                console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+            }
+        }
+    })
     const result = await Otp.create({
         number,
         otp: OTP
@@ -96,6 +197,29 @@ exports.sendOtp = catchAsync(async (req, res, next) => {
 
 
 
+//-----------VERIFY PASSWORD OTP-------------
+exports.verifyOtpPassword = catchAsync(async (req, res, next) => {
+    const otpHolder = await Otp.find({
+        number: req.body.number
+    })
+    if (otpHolder.length == 0) return res.status(400).json({ status: 'failed', message: 'incorrect otp' })
+    const rightOtpHolder = otpHolder[otpHolder.length - 1]
+    const validUser = rightOtpHolder.otp == req.body.otp
+
+    if (!validUser) return res.status(400).json({ status: 'failed', message: 'incorrect otp' })
+    const number = req.body.number
+    const user = await User.findOne({ mob: number })
+    const deleteOtp = await Otp.deleteMany({
+        number: rightOtpHolder.number
+    })
+    createSendToken(user, 200, res)
+
+})
+
+
+
+
+//--------------VERIFY OTP ----------------
 exports.verifyOtp = catchAsync(async (req, res, next) => {
     const otpHolder = await Otp.find({
         number: req.body.number
@@ -116,6 +240,8 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
 
 
 
+
+//-----------ADD ADDRESS----------------
 exports.addAddress = catchAsync(async (req, res, next) => {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, {
         $push: {
@@ -154,9 +280,11 @@ exports.login = catchAsync(async (req, res, next) => {
     // return next()
 })
 
+
+//=========== USER LOGOUT==============
 exports.logout = (req, res, next) => {
     res.cookie('jwt', 'logged out', {
-        expiresIn: new Date(Date.now() + 1000),
+        expiresIn: new Date(Date.now()),
         httpOnly: true
     })
     // res.status(200).json({
@@ -188,6 +316,8 @@ exports.protect = catchAsync(async function (req, res, next) {
 
 exports.isUser = async function (req, res, next) {
     // 1) ---------getting token and check of it there-----------
+    const category = await Category.find()
+    res.locals.category = category;
     if (req.cookies.jwt) {
         try {
             // 2) -------------Verification token-------------
@@ -205,9 +335,12 @@ exports.isUser = async function (req, res, next) {
             // 4)----------- Check if user change password after the token was issued---------
             // const changePassword = newUser.changePassword(decoded.iat)
             // console.log("change passwored = " + changePassword)
-            const category = await Category.find()
+            const cart = await Cart.findOne({ user: decoded.id });
+            const whishlist = await Whishlist.findOne({ user: decoded.id });
             res.locals.user = newUser;
-            res.locals.category = category;
+            res.locals.cart = cart
+            res.locals.whishlist = whishlist
+
             req.user = newUser
             return next()
         } catch (err) {
@@ -215,6 +348,46 @@ exports.isUser = async function (req, res, next) {
         }
     }
     next();
+}
+
+
+exports.permission = async function (req, res, next) {
+    // 1) ---------getting token and check of it there-----------
+    const category = await Category.find()
+    res.locals.category = category;
+    if (req.cookies.jwt) {
+        try {
+            // 2) -------------Verification token-------------
+            const decoded = await jwt.verify(req.cookies.jwt,
+                process.env.JWT_SECRET
+            );
+
+            if (!decoded) {
+                return res.redirect('/login')
+            }
+            else if (!decoded.id) {
+                return res.redirect('/login')
+            }
+            // 3) --------------Check if user still exist-----------
+            const newUser = await User.findById(decoded.id)
+            if (!newUser) {
+                return res.redirect('/login')
+            }
+            // 4)----------- Check if user change password after the token was issued---------
+            // const changePassword = newUser.changePassword(decoded.iat)
+            // console.log("change passwored = " + changePassword)
+
+            res.locals.user = newUser;
+
+            req.user = newUser
+            return next()
+        } catch (err) {
+            console.log(err)
+            return res.redirect('/login');
+        }
+    }
+    console.log('not inside')
+    res.redirect('/login');
 }
 
 exports.update = catchAsync(async (req, res, next) => {

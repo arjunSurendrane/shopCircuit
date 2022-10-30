@@ -1,12 +1,16 @@
 const User = require("../../modeling/userModel");
 const Order = require("../../modeling/orderModel");
 const Coupon = require("../../modeling/couponModel");
+const Banner = require('../../modeling/bannerModel')
 const Product = require("../../modeling/productModel");
 const Category = require("../../modeling/categoryModel");
 const catchAsync = require("../../utils/catchAsync");
 const AppError = require("../../utils/appError");
 const async = require("hbs/lib/async");
 const Cart = require("../../modeling/cartModel");
+const { lte, castArray } = require("lodash");
+const Delivery = require("../../modeling/deliveryOrder");
+const Return = require("../../modeling/returnOrders");
 //===========DATE FUNCTION=============
 const date = () => {
     var dateObj = new Date();
@@ -16,6 +20,37 @@ const date = () => {
     var newdate = day + "/" + month + "/" + year;
     return newdate;
 };
+//============== BANNER==================
+exports.banner = catchAsync(async (req, res, next) => {
+    const banner = await Banner.find()
+    res.status(200).render('admin/banner/bannerView.hbs', {
+        admin: true,
+        banner
+    })
+
+})
+
+exports.addBanner = catchAsync(async (req, res, next) => {
+    const product = await Product.find()
+    console.log('add banner')
+    res.status(200).render('admin/banner/bannerAdd.hbs', {
+        admin: true,
+        product
+    })
+
+})
+
+exports.editBanner = catchAsync(async (req, res, next) => {
+    console.log('edit baner')
+    const banner = await Banner.findOne({ _id: req.params.id })
+    res.status(200).render('admin/banner/bannerEdit.hbs', {
+        admin: true,
+        banner
+    })
+
+})
+
+
 // =============DASHBOARD=================
 exports.dashboardDemo = catchAsync(async (req, res, next) => {
     const completeOrders = await Order.find({
@@ -158,6 +193,20 @@ exports.aggregation = catchAsync(async (req, res, next) => {
         order,
     });
 });
+
+
+//============== RENDER RETURN PRODUCT APPROVE ===============
+exports.return = catchAsync(async (req, res, next) => {
+    const order = await Delivery.find()
+    const returnOrder = await Return.find().populate('order')
+    console.log(returnOrder)
+    console.log(order)
+    res.render('admin/orders/returnOrder', {
+        admin: true,
+        order,
+        returnOrder
+    })
+})
 //==============CALCULATE YEARLY REVENUE==============
 exports.dashboard = catchAsync(async (req, res, next) => {
     let year = date();
@@ -166,7 +215,7 @@ exports.dashboard = catchAsync(async (req, res, next) => {
     const start = new Date(`${year}-01-01T09:04:13.671Z`);
     const end = new Date(`${year}-12-01T09:04:13.671Z`);
     console.log(start, end);
-    const revenue = await Order.aggregate([
+    const revenue = await Delivery.aggregate([
         {
             $unwind: "$createdAt",
         },
@@ -187,12 +236,17 @@ exports.dashboard = catchAsync(async (req, res, next) => {
             },
         }
     ]);
-    const paymentOption = await Order.aggregate([
-        {
-            $match: {
-                totalPrice: { $gt: 60000 },
-            },
-        },
+    console.log(revenue)
+
+    let monthlyIncome = 0
+    revenue.forEach(el => {
+        if (monthlyIncome < el.totalPrice) {
+            monthlyIncome = el.totalPrice
+        }
+    })
+
+    const paymentOption = await Delivery.aggregate([
+
         {
             $group: {
                 _id: "$PaymentMethod",
@@ -201,6 +255,16 @@ exports.dashboard = catchAsync(async (req, res, next) => {
             },
         },
     ]);
+    console.log(paymentOption)
+    let codtotal = 0
+    let razorpay = 0
+    let paypal = 0
+    paymentOption.forEach(el => {
+        if (el._id == 'COD') codtotal = el.totalRevenue;
+        if (el._id == 'RAZORPAY') razorpay = el.totalRevenue;
+        if (el.id == 'PAYPAL') paypal = el.totalRevenue;
+    })
+
     const pendingOrders = await Order.aggregate([
         {
             $group: {
@@ -209,8 +273,9 @@ exports.dashboard = catchAsync(async (req, res, next) => {
             }
         }
     ])
+    console.log(pendingOrders)
 
-    const yearly = await Order.aggregate([
+    const yearly = await Delivery.aggregate([
         {
             $unwind: "$createdAt",
         },
@@ -231,11 +296,21 @@ exports.dashboard = catchAsync(async (req, res, next) => {
             },
         },
     ]);
+    console.log(yearly)
+    let annualIncome = 0
+    yearly.forEach(el => {
+        if (annualIncome < el.totalPrice) {
+            annualIncome = el.totalPrice
+        }
+    })
 
 
-
-    console.log(yearly);
+    console.log(annualIncome, monthlyIncome, annualIncome, paymentOption, pendingOrders);
     res.status(200).render("admin/Dashboard/adminDashboard", {
+        codtotal,
+        razorpay,
+        monthlyIncome,
+        annualIncome,
         admin: true,
         revenue,
         paymentOption,
@@ -313,30 +388,94 @@ exports.order = catchAsync(async (req, res, next) => {
         admin: true,
     });
 });
+//================= RENDER DELIVERED PRODUCT ==================
+exports.deliveredProducts = catchAsync(async (req, res, next) => {
+    const order = await Delivery.find().populate('user');
+    console.log('delivery order====================')
+    console.log(order)
+    res.status(200).render("admin/orders/deliveredProducts", {
+        order,
+        admin: true
+    })
+})
 // ================SALES========================
-exports.sales = catchAsync(async (req, res, next) => {
-    const completeOrders = await Order.find({
-        paymentStatus: "Completed",
-    }).populate("user");
-    const pendingOrders = await Order.find({ paymentStatus: "Pending" }).populate(
-        "user"
-    );
-    let totalAmount = 0;
-    let pendingAmount = 0;
-    completeOrders.forEach((el) => {
-        totalAmount = el.totalPrice + totalAmount;
-    });
-    pendingOrders.forEach((el) => {
-        pendingAmount = el.totalPrice + pendingAmount;
-    });
+exports.salesReport = catchAsync(async (req, res, next) => {
+    salesReports = req.sales
+    const { year, month, day } = req.query
     res.status(200).render("admin/sales/adminSalesReport", {
-        pendingAmount,
-        totalAmount,
-        completeOrders,
-        pendingOrders,
         admin: true,
+        salesReports,
+        month, year, day
     });
 });
+
+
+//=============RENDER SALES 2===================
+exports.sales = catchAsync(async (req, res, next) => {
+    const { year, month, day } = req.query
+    console.log(year, month, day)
+    let salesReports;
+    if (year && month == 0 && day == 0) {
+        salesReports = await Delivery.aggregate([
+            {
+                $unwind: "$createdAt"
+            },
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(`${year}-01-01`),
+                        $lte: new Date(`${year}-12-31`)
+                    }
+                }
+            }
+        ])
+    }
+    else if (month && day == 0) {
+        salesReports = await Delivery.aggregate([
+            {
+                $unwind: "$createdAt"
+            },
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(`${year}-${month}-01`),
+                        $lte: new Date(`${year}-${month}-31`)
+                    }
+                }
+            }
+        ])
+    }
+    else if (day != 0) {
+        salesReports = await Delivery.aggregate([
+            {
+                $unwind: "$createdAt"
+            },
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(new Date(`${year}-${month}-${day}`).setHours(00, 00, 00)),
+                        $lt: new Date(new Date(`${year}-${month}-${day}`).setHours(23, 59, 59))
+                    }
+                }
+            }
+        ])
+    }
+    else {
+        salesReports = await Delivery.find()
+    }
+    // res.status(200).render("admin/sales/adminSalesReport", {
+    //     admin: true,
+    //     salesReports
+    // })
+
+    // res.json({
+    //     status: "success",
+    //     length: salesReports.length
+
+    // })
+    req.sales = salesReports;
+    next()
+})
 
 //============RENDER COUPON PAGE===================
 exports.coupon = catchAsync(async (req, res, next) => {

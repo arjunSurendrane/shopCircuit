@@ -220,7 +220,7 @@ if (adminEditProduct) {
             if (res.data.status == 'success') {
 
                 location.assign('/admin/product')
-                
+
             }
 
         } catch (err) {

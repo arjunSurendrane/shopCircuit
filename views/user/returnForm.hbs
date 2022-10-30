@@ -1,0 +1,49 @@
+<div class="customer-login mt-5">
+    <div class="container d-flex justify-content-center">
+        <div class="row w-50 ">
+            <!--login area start-->
+            <div class="col-lg-12 col-md-12">
+                <div class="account_form" data-aos="fade-up" data-aos-delay="0">
+                    <h3>Return Form</h3>
+                    <form action="#" method="POST" id="returnform">
+                        <div class="default-form-box text-center">
+                            <p><strong class="text-danger d-none" id="errorMessage"> incorrect password or email id
+                                    !!</strong></p>
+                        </div>
+                        <div class="default-form-box">
+                            <label>Reason <span>*</span></label>
+                            <input type="text" name="returnReason" id="returnReason" required="required">
+                        </div>
+
+                        <div class="login_submit">
+                            <button class="btn btn-md btn-black-default-hover mb-4" type="submit">return</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--login area start-->
+
+            <!--register area start-->
+
+            <!--register area end-->
+        </div>
+    </div>
+    <script>
+        const returnform = document.getElementById('returnform')
+        returnform.addEventListener('submit', async el => {
+            el.preventDefault();
+            const url = location.href
+            const returnReason = document.getElementById('returnReason').value
+            console.log(url)
+            const res = await axios({
+                method: 'post',
+                url,
+                data: {
+                    returnReason
+                }
+            })
+            location.assign('/profile')
+
+        })
+    </script>

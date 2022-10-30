@@ -2,7 +2,7 @@
 <div class="shop-section mt-5">
   <div class="container">
     <div class="row flex-column-reverse flex-lg-row">
-      <div class="col-lg-3">
+      {{!-- <div class="col-lg-3">
         <!-- Start Sidebar Area -->
         <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
@@ -13,7 +13,7 @@
               <ul class="sidebar-menu">
                 {{#each category}}
 
-                  <li><a href="#">{{categoryName}}</a></li>
+                <li><a href="#">{{categoryName}}</a></li>
                 {{/each}}
 
               </ul>
@@ -140,15 +140,8 @@
           <!-- Start Single Sidebar Widget -->
           <div class="sidebar-single-widget">
             <div class="sidebar-content">
-              <a
-                href="product-details-default.html"
-                class="sidebar-banner img-hover-zoom"
-              >
-                <img
-                  class="img-fluid"
-                  src="images/banner/side-banner.jpg"
-                  alt=""
-                />
+              <a href="product-details-default.html" class="sidebar-banner img-hover-zoom">
+                <img class="img-fluid" src="images/banner/side-banner.jpg" alt="" />
               </a>
             </div>
           </div>
@@ -156,8 +149,8 @@
 
         </div>
         <!-- End Sidebar Area -->
-      </div>
-      <div class="col-lg-9">
+      </div> --}}
+      <div class="col-lg-12">
         <!-- Start Shop Product Sorting Section -->
         <div class="shop-sort-section">
           <div class="container">
@@ -165,23 +158,10 @@
               <!-- Start Sort Wrapper Box -->
               <div
                 class="sort-box d-flex justify-content-between align-items-md-center align-items-start flex-md-row flex-column"
-                data-aos="fade-up"
-                data-aos-delay="0"
-              >
+                data-aos="fade-up" data-aos-delay="0">
                 <!-- Start Sort tab Button -->
                 <div class="sort-tablist d-flex align-items-center">
-                  {{!-- <ul class="tablist nav sort-tab-btn">
-                    <li><a
-                        class="nav-link"
-                        data-bs-toggle="tab"
-                        href="#layout-3-grid"
-                      ><img src="images/icons/bkg_grid.png" alt="" /></a></li>
-                    <li><a
-                        class="nav-link active"
-                        data-bs-toggle="tab"
-                        href="#layout-list"
-                      ><img src="images/icons/bkg_list.png" alt="" /></a></li>
-                  </ul> --}}
+
 
                   <!-- Start Page Amount -->
                   <div class="page-amount ml-2">
@@ -225,168 +205,61 @@
                   <div class="tab-pane sort-layout-single active show" id="layout-3-grid">
                     <div class="row">
                       {{#each product}}
-                        <div class="col-xl-4 col-sm-6 col-12">
-                          <!-- Start Product Default Single Item -->
-                          <div
-                            class="product-default-single-item product-color--golden"
-                          >
-                            <div class="image-box">
-                              <a href="/product/{{id}}" class="image-link">
-                             
-                                <img src="/images/{{image.[3]}}" alt="" />
-                                <img src="/images/{{image.[0]}}" alt="" />
+                      <div class="col-3">
 
-                                
-                               
-                              </a>
-                              <div class="action-link">
-                                <div class="action-link-left">
-                                  <a
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalAddcart"
-                                  >Add to Cart</a>
-                                </div>
-                                <div class="action-link-right">
-                                  <a
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalQuickview"
-                                  ><i class="icon-magnifier"></i></a>
-                                  <a href="/whishlist/{{_id}}"><i
-                                      class="icon-heart"
-                                    ></i></a>
-                                  <a href="compare.html"><i
-                                      class="icon-shuffle"
-                                    ></i></a>
-                                </div>
+
+                        <!-- Start Product Default Single Item -->
+                        <div class="product-default-single-item product-color--golden swiper-slide">
+                          <div class="image-box">
+                            <a href="/product/{{_id}}" class="image-link">
+                              <img src="/images/{{image.[0]}}" alt="">
+                              <img src="/images/{{image.[1]}}" alt="">
+                            </a>
+                            <div class="tag">
+                              <span>sale</span>
+                            </div>
+                            <div class="action-link">
+                              <div class="action-link-left">
+                                <button onclick="addToCart('{{_id}}')" data-bs-toggle="modal"
+                                  data-bs-target="#modalAddcart" class="text-white">Add to
+                                  Cart</button>
+                              </div>
+                              <div class="action-link-right">
+                                {{!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview"><i
+                                    class="icon-magnifier"></i></a> --}}
+                                <button onclick="addtoWhishlist('{{_id}}')" class="btn text-white mt-2">
+                                  <ul>
+                                    <li class="fill"><i id="whishlist{{_id}}" class="icon-heart"></i></li>
+                                  </ul>
+                                </button>
                               </div>
                             </div>
-                            <div class="content">
-                              <div class="content-left">
-                                <h6 class="title"><a
-                                    href="/product/{{id}}"
-                                  >{{productName}}</a></h6>
-                                <ul class="review-star">
-                                  <li class="fill"><i
-                                      class="ion-android-star"
-                                    ></i>
-                                  </li>
-                                  <li class="fill"><i
-                                      class="ion-android-star"
-                                    ></i>
-                                  </li>
-                                  <li class="fill"><i
-                                      class="ion-android-star"
-                                    ></i>
-                                  </li>
-                                  <li class="fill"><i
-                                      class="ion-android-star"
-                                    ></i>
-                                  </li>
-                                  <li class="empty"><i
-                                      class="ion-android-star"
-                                    ></i>
-                                  </li>
-                                </ul>
-                              </div>
-
-                            </div>
-                              <div class="content-right">
-                                <span class="price">Rs <strong>{{discountPrice}}</strong></span>
-                              </div>
                           </div>
-                          <!-- End Product Default Single Item -->
+                          <div class="content">
+                            <div class="content-left">
+                              <h6 class="title"><a href="/product/{{_id}}">{{productName}}</a>
+                              </h6>
+                              <ul class="review-star">
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="empty"><i class="ion-android-star"></i></li>
+                              </ul>
+                            </div>
+                            <div class="content-right">
+                              <span class="price">{{discountPrice}}</span>
+                            </div>
+
+                          </div>
                         </div>
+
+
+                      </div>
                       {{/each}}
                     </div>
                   </div>
                   <!-- End Grid View Product -->
-                  <!-- Start List View Product -->
-                  {{!-- <div
-                    class="tab-pane  sort-layout-single"
-                    id="layout-list"
-                  >
-                    <div class="row">
-                      {{#each product}}
-
-                        <div class="col-12">
-                          <!-- Start Product Defautlt Single -->
-                          <div
-                            class="product-list-single product-color--golden"
-                            data-aos="fade-up"
-                            data-aos-delay="0"
-                          >
-                            <a
-                              href="/product/{{_id}}"
-                              class="product-list-img-link"
-                            >
-                            {{#each image}}
-                              <img
-                                class="img-fluid"
-                                src="/images/{{this}}"
-                                alt=""
-                              />
-                              {{/each}}
-                             
-                            </a>
-                            <div class="product-list-content">
-                              <h5 class="product-list-link"><a
-                                  href="/product/{{_id}}"
-                                >{{productName}}</a></h5>
-                              <ul class="review-star">
-                                <li class="fill"><i
-                                    class="ion-android-star"
-                                  ></i></li>
-                                <li class="fill"><i
-                                    class="ion-android-star"
-                                  ></i></li>
-                                <li class="fill"><i
-                                    class="ion-android-star"
-                                  ></i></li>
-                                <li class="fill"><i
-                                    class="ion-android-star"
-                                  ></i></li>
-                                <li class="empty"><i
-                                    class="ion-android-star"
-                                  ></i></li>
-                              </ul>
-                              <span class="product-list-price"><del
-                                >{{discount}}</del>
-                                Rs
-                                {{price}}</span>
-                              <p class="discription">{{discription}}</p>
-                              <div class="product-action-icon-link-list">
-                                <a
-                                  href="#"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#modalAddcart"
-                                  class="btn btn-lg btn-black-default-hover"
-                                >Add to cart</a>
-                                <a
-                                  href="/product/{{_id}}"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#modalQuickview"
-                                  class="btn btn-lg btn-black-default-hover"
-                                ><i class="icon-magnifier"></i></a>
-                                <a
-                                  href="wishlist.html"
-                                  class="btn btn-lg btn-black-default-hover"
-                                ><i class="icon-heart"></i></a>
-                                <a
-                                  href="compare.html"
-                                  class="btn btn-lg btn-black-default-hover"
-                                ><i class="icon-shuffle"></i></a>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Product Defautlt Single -->
-                        </div>
-
-                      {{/each}}
-                    </div>
-                  </div> --}}
-                  <!-- End List View Product -->
                 </div>
               </div>
             </div>
@@ -395,11 +268,7 @@
         <!-- End Tab Wrapper -->
 
         <!-- Start Pagination -->
-        <div
-          class="page-pagination text-center"
-          data-aos="fade-up"
-          data-aos-delay="0"
-        >
+        <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
           <ul>
             <li><a class="active" href="#">1</a></li>
             <li><a href="#">2</a></li>
@@ -415,3 +284,35 @@
 </div>
 
 <!-- ...:::: End Shop Section:::... -->
+<script>
+  window.addEventListener('load', async (event) => {
+    const res = await axios({
+      method: 'get',
+      url: '/checkWhishlist'
+    })
+    res.data.whishlist.items.forEach(e => {
+      if (document.getElementById(`whishlist${e.product_id}`)) {
+        document.getElementById(`whishlist${e.product_id}`).classList.replace('icon-heart', 'ion-heart')
+      }
+    })
+  });
+  async function addToCart(id) {
+    const res = await axios({
+      method: 'post',
+      url: `/cart/${id}`,
+      data: {
+        quantity: 1
+      }
+    })
+    console.log(res)
+  }
+
+  async function addtoWhishlist(id) {
+    const res = await axios({
+      method: 'get',
+      url: `whishlist/${id}`
+    })
+    location.reload(true)
+
+  }
+</script>

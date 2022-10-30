@@ -21,6 +21,8 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
         data: "item already added to cart",
       });
     } else {
+      console.log(oldCart.totalPrice, price)
+      const totalPrice = oldCart.totalPrice + parseInt(price)
       cart = await Cart.findOneAndUpdate(
         { user: req.user._id },
         {
@@ -28,13 +30,15 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
             cartItems: {
               product: req.params.id,
               quantity,
-              price,
+              price
             },
           },
+          totalPrice
         }
       );
     }
   } else {
+    const totalPrice = parseInt(price)
     cart = await Cart.create({
       user: req.user._id,
       cartItems: [
@@ -44,6 +48,7 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
           price,
         },
       ],
+      totalPrice
     });
   }
   res.status(200).json({
@@ -54,9 +59,23 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
 
 // ===============2) DELETE CARTITEM FROM CART COLLECTION ===============
 exports.deleteCartItem = catchAsync(async (req, res, next) => {
+  const cart = await Cart.findOne({ user: req.user._id })
+  if (!cart) {
+    return res.redirect('/cart')
+  }
+  console.log(cart)
+  let totalPrice = cart.totalPrice
+  cart.cartItems.forEach(e => {
+    if (e._id == req.params.id) {
+      totalPrice = totalPrice - e.price
+    }
+  })
   const newCart = await Cart.findOneAndUpdate(
     { user: req.user._id },
-    { $pull: { cartItems: { _id: req.params.id } } }
+    {
+      $pull: { cartItems: { _id: req.params.id } },
+      totalPrice
+    }
   );
   res.redirect("/cart");
 });
@@ -64,15 +83,29 @@ exports.deleteCartItem = catchAsync(async (req, res, next) => {
 // ======================3) QUANTITY UPDATE ============================
 exports.updateQuantity = catchAsync(async (req, res, next) => {
   const product = await Product.findOne({ _id: req.params.id });
+  const cart = await Cart.findOne({ user: req.user._id })
   const { quantity } = req.body;
   const price = product.price * quantity;
+  let totalPrice = 0
   const newCart = await Cart.findOneAndUpdate(
     { user: req.user._id, "cartItems.product": req.params.id },
     {
       "cartItems.$.quantity": quantity,
-      "cartItems.$.price": price,
-    }
+      "cartItems.$.price": price
+    }, {
+    new: true
+  }
   );
+  console.log(newCart)
+  newCart.cartItems.forEach(e => {
+    console.log(e.price)
+    totalPrice = e.price + totalPrice
+  })
+  console.log(totalPrice)
+  const necart = await Cart.findOneAndUpdate({ user: req.user._id }, {
+    totalPrice
+  })
+
   res.status(200).json({
     status: "success",
   });
@@ -84,7 +117,9 @@ exports.addCoupon = catchAsync(async (req, res, next) => {
   console.log(`this is price ${price}`)
   const newCart = await Cart.findOneAndUpdate(
     { user: req.user.id },
-    { couponOffer: parseInt(price) },
+    {
+      couponOffer: parseInt(price)
+    },
     { new: true }
   );
   console.log(newCart)

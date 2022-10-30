@@ -21,6 +21,9 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: [true, "enter product Name"],
       },
+      productId: {
+        type: String
+      },
       quantity: {
         type: Number,
         required: [true, "Enter quantity"],
@@ -58,13 +61,15 @@ const orderSchema = new mongoose.Schema({
     required: [true, "must enter total price"],
   },
   createdAt: {
-    type: String,
-    default: date(),
+    type: Date,
+    default: new Date(Date.now()),
   },
   paymentStatus: {
     type: String,
     default: "Pending",
-  },
+  }
+}, {
+  timestamps: true
 });
 
 const Order = mongoose.model("Order", orderSchema);

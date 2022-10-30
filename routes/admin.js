@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const bannerController = require("../controller/Banner/bannerController");
 const categoryOfferController = require("../controller/offer/categoryOfferController");
 const productOfferController = require("../controller/offer/productOfferController");
 const couponController = require("../controller/Coupon/couponController");
@@ -14,10 +15,7 @@ const adminViewController = require("../controller/Admin/adminViewController");
 const Category = require("../modeling/categoryModel");
 const catchAsync = require("../utils/catchAsync");
 
-//======RENDER DASHBOARD==========
-router.route("/dashboard").get(adminViewController.dashboard);
-
-/* GET users listing. */
+//========== ADMIN LOGIN PAGE =================
 router.get("/", (req, res) => {
   res.status(200).render("admin/admin-login", {
     style: "login",
@@ -25,23 +23,28 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/register", async (req, res) => {
-  try {
-    await Admin.create(req.body);
-    res.json({
-      status: "success",
-    });
-  } catch (err) {
-    res.json({
-      err,
-    });
-  }
-});
 
-// ------LOGIN-----------
+//=========== LOGIN API =============
 router.post("/login", authController.login);
 
-// ------PRODUCT MANAGMENT--------
+
+
+
+//========= PROTECT MIDDLEWARE
+router.use(authController.isAdmin)
+
+
+
+//======RENDER DASHBOARD==========
+router.route("/dashboard").get(adminViewController.dashboard);
+
+
+
+
+
+
+
+// =========== PRODUCT MANAGEMENT ===============
 router
   .route("/product")
   .post(
@@ -49,8 +52,9 @@ router
     productController.resizeProductImage,
     productController.addProduct
   )
-  .get(authController.isAdmin, adminViewController.productView);
+  .get(adminViewController.productView);
 
+//=====PRODUCT ADD======
 router.get(
   "/productAdd",
   catchAsync(async (req, res) => {
@@ -62,7 +66,7 @@ router.get(
     });
   })
 );
-
+//==========PRODUCT EDIT==========
 router
   .route("/productEdit/:id")
   .get(adminViewController.productEdit)
@@ -87,7 +91,7 @@ router
 router
   .route("/category")
   .post(categoryController.addCategory)
-  .get(authController.isAdmin, adminViewController.categoryView);
+  .get(adminViewController.categoryView);
 
 router
   .route("/category/:id")
@@ -101,7 +105,7 @@ router.route("/categoryDelete/:id").get(categoryController.deleteCategory);
 // ---------USER MANAGMENT-----------
 router
   .route("/user")
-  .get(authController.isAdmin, adminViewController.userView)
+  .get(adminViewController.userView)
   .post(adminController.createUser);
 
 router
@@ -126,7 +130,9 @@ router
 
 //============SALES REPORT===============
 //--------RENDER SALES PAGE-------------
-router.route("/sales").get(adminViewController.sales);
+router
+  .route("/sales")
+  .get(adminViewController.sales, adminViewController.salesReport);
 
 //============COUPON======================
 
@@ -162,5 +168,42 @@ router
   .route("/offer/category/edit/:id")
   .get(adminViewController.editCategoryOffer)
   .post(categoryOfferController.categoryOffer);
+
+// ==================sample ===============
+router.route("/aggregation").get(adminViewController.aggregation);
+
+//================ BANNER =======================
+router.route("/banner").get(adminViewController.banner);
+
+router
+  .route("/banner/add")
+  .get(adminViewController.addBanner)
+  .post(bannerController.uploadBannerPhoto, bannerController.createBanner);
+
+router.route("/banner/delete/:id").delete(bannerController.deleteBanner);
+
+router
+  .route("/banner/:id")
+  .get(adminViewController.editBanner)
+  .patch(bannerController.editBanner)
+
+
+//============ RENDER DELIVERY ORDER ===============
+router.route('/deliveredProduct')
+  .get(adminViewController.deliveredProducts)
+
+//============== RENDER RETURN PRODUCT ==========
+router.route('/returnProduct').get(adminViewController.return)
+
+
+
+//==========ADMIN APPROVE RETURN ===============
+router.route('/orderReturn/approve/:id').post(orderController.approveReturn)
+
+//============  ADMIN CANCEL RETURN ============
+router.route('/orderReturn/cancel/:id').post(orderController.returnCancel)
+
+
+
 
 module.exports = router;

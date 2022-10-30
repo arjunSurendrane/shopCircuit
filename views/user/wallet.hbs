@@ -1,0 +1,72 @@
+<!-- ...:::: Start Wishlist Section:::... -->
+<div class="wishlist-section mt-5 mb-5">
+    <!-- Start Cart Table -->
+    <div class="wishlish-table-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h3><strong>Wallet</strong> </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="box">
+                        <h5 class="text-success"><strong>Total Amount</strong></h5>
+                        <p class="text-success"> <strong>₹{{wallet.amount}}</strong> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="table_page table-responsive">
+                            <h5><strong>Transaction</strong></h5>
+                            {{#if wallet.length-1}}
+                            <table>
+                                <!-- Start Wishlist Table Head -->
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Date</th>
+                                        <th class="product_thumb">ProductName</th>
+                                        <th class="product_name">amount</th>
+                                        <th class="product-price">Entry</th>
+
+                                    </tr>
+                                </thead> <!-- End Cart Table Head -->
+                                <tbody>
+                                    <!-- Start Wishlist Single Item-->
+
+                                    {{#each wallet}}
+                                    {{#each transcation}}
+
+
+                                    <tr>
+                                        <td>{{this.date}}</td>
+                                        <td>{{this.productName}}</td>
+                                        <td>₹{{this.amount}}</td>
+                                        {{#if getit}}
+                                        <td class="text-success"><strong>{{this.method}}</strong></td>
+                                        {{else}}
+                                        <td class="text-danger"><strong>{{this.method}}</strong></td>
+                                        {{/if}}
+                                    </tr>
+
+
+                                    {{/each}}
+                                    {{/each}}
+
+
+
+
+                                </tbody>
+                            </table>
+                            {{else}}
+                            <td>No Transaction</td> <a href="/">continue shopping</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Cart Table -->
+</div> <!-- ...:::: End Wishlist Section:::... -->

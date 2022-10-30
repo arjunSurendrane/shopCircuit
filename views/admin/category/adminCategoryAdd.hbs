@@ -1,5 +1,12 @@
 <div class="container">
-
+  <style>
+    label.error {
+      color: red;
+      font-size: 1rem;
+      display: block;
+      margin-top: 5px;
+    }
+  </style>
   <!-- Outer Row -->
   <div class="row justify-content-center">
 
@@ -14,38 +21,27 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Add category</h1>
                 </div>
-                <form class="user" action="/admin/category" method="post">
+                <form class="user" id="cat-add">
                   <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="categoryName"
-                      name="categoryName"
-                      placeholder="Enter Category Name..."
-                      required
-                    />
-                    </div>
-                    <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="categoryName" name="categoryName"
+                      placeholder="Enter Category Name..." required />
+                    <span>
+                      <p class="text-danger" id="nameerror"></p>
+                    </span>
+                  </div>
+                  <div class="form-group">
 
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="offerName"
-                      name="offerName"
-                      placeholder="Enter Offer Name..."
-                      required
-                    />
-                     </div>
-                    <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="offerName" name="offerName"
+                      placeholder="Enter Offer Name..." required />
+                    <p class="text-danger" id="offernameerror"></p>
 
-                    <input
-                      type="text"
-                      class="form-control form-control-user"
-                      id="offer"
-                      name="offer"
-                      placeholder="Enter Offer In pencentage..."
-                      required
-                    />
+                  </div>
+                  <div class="form-group">
+
+                    <input type="text" class="form-control form-control-user" id="offer" name="offer"
+                      placeholder="Enter Offer In pencentage..." required />
+                    <p class="text-danger" id="offererror"></p>
+
                   </div>
 
                   <input type="submit" value="Add" class="btn" />
@@ -62,4 +58,58 @@
   </div>
 
 </div>
-<script src="/js/admin_manage.js"></script>
+<script>
+  document.getElementById('cat-add').addEventListener('submit', async e => {
+    e.preventDefault();
+    console.log('inside program')
+    const categoryName = document.getElementById('categoryName').value;
+    const offerName = document.getElementById('offerName').value;
+    const offer = document.getElementById('offer').value;
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/admin/category',
+        data: {
+          categoryName,
+          offerName,
+          offer
+        }
+      })
+      console.log(res)
+      location.assign('/admin/category')
+    } catch (err) {
+      console.log(err.response.data.message)
+      console.log(err.response.data.message.split('"')[3])
+      if (err.response.data.message.split('"')[3] == 'offer') {
+        document.getElementById('offer').style.borderColor = 'red'
+        document.getElementById('offererror').innerHTML = 'enter number'
+        document.getElementById('offer').addEventListener('click', e => {
+          document.getElementById('offer').style.borderColor = '#d1d3e2'
+          document.getElementById('offererror').innerHTML = ''
+        })
+
+      }
+      else if (err.response.data.message.startsWith('E11000', 0)) {
+        document.getElementById('categoryName').style.borderColor = 'red'
+        document.getElementById('nameerror').innerHTML = 'this category name already exist'
+        document.getElementById('categoryName').addEventListener('click', e => {
+          document.getElementById('categoryName').style.borderColor = '#d1d3e2'
+          document.getElementById('nameerror').innerHTML = ''
+        })
+      }
+    }
+
+  })
+</script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+  crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $("#cat-add").validate({
+      rules: {
+        required: true,
+        minlength: 4
+      }
+    });
+  });
+</script>
