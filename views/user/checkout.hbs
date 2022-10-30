@@ -204,7 +204,6 @@
                 <select class="country_option nice-select wide" name="paymentMethod" id="paymentMethod">
                   <option value="COD">Cash On Delivery</option>
                   <option value="RAZORPAY">Razorpay</option>
-                  <option value="PAYPAL">Paypal</option>
                   <option value="WALLET">Wallet</option>
 
 
@@ -239,68 +238,72 @@
     const totalPrice = document.getElementById('totalAmount').innerHTML;
     const paymentMethod = document.getElementById('paymentMethod').value
 
+    if (address != '') {
 
-    try {
-      const res = await axios({
-        method: 'post',
-        url: '/checkout',
-        data: {
-          address,
-          totalPrice,
-          paymentMethod
-        }
-      });
-      if (res.data.status == 'paypal') {
-        console.log(res.data)
-        const { payment } = res.data;
-        console.log(payment)
-        let url = ''
-        payment.links.forEach(e => {
-          console.log(e)
-          if (e.rel === 'approval_url') {
-            url = e.href;
+      try {
+        const res = await axios({
+          method: 'post',
+          url: '/checkout',
+          data: {
+            address,
+            totalPrice,
+            paymentMethod
           }
-        })
-        location.assign(url)
-
-      }
-
-      else if (res.data.status == 'success') {
-
-        swal("Order Placed", {
-          icon: 'success',
-          buttons: {
-            View_Orders: "View Orders",
-            Continue_Shopping: true,
-          },
-        })
-          .then((value) => {
-            switch (value) {
-
-              case "Continue_Shopping":
-                location.assign('/');
-                break;
-
-              case "View_Orders":
-                location.assign('/profile');
-                break;
-
-              default:
-                location.assign('/');
+        });
+        if (res.data.status == 'paypal') {
+          console.log(res.data)
+          const { payment } = res.data;
+          console.log(payment)
+          let url = ''
+          payment.links.forEach(e => {
+            console.log(e)
+            if (e.rel === 'approval_url') {
+              url = e.href;
             }
-          });
+          })
+          location.assign(url)
 
-      }
-      else if (res.data.status == 'pending') {
-        razorpay(res.data.order)
-      }
-      else if (res.data.status == 'transaction failed') {
-        document.getElementById('walletMessage').innerHTML = 'your wallet not have enough money..!! choose another payment option'
-      }
+        }
+
+        else if (res.data.status == 'success') {
+
+          swal("Order Placed", {
+            icon: 'success',
+            buttons: {
+              View_Orders: "View Orders",
+              Continue_Shopping: true,
+            },
+          })
+            .then((value) => {
+              switch (value) {
+
+                case "Continue_Shopping":
+                  location.assign('/');
+                  break;
+
+                case "View_Orders":
+                  location.assign('/profile');
+                  break;
+
+                default:
+                  location.assign('/');
+              }
+            });
+
+        }
+        else if (res.data.status == 'pending') {
+          razorpay(res.data.order)
+        }
+        else if (res.data.status == 'transaction failed') {
+          document.getElementById('walletMessage').innerHTML = 'your wallet not have enough money..!! choose another payment option'
+        }
 
 
-    } catch (err) {
-      alert(err)
+      } catch (err) {
+        alert(err)
+      }
+    } else {
+      document.getElementById('walletMessage').innerHTML = "please add your shipping address"
     }
   }
 

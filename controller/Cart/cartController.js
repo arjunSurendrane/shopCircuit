@@ -22,7 +22,7 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
       });
     } else {
       console.log(oldCart.totalPrice, price)
-      const totalPrice = oldCart.totalPrice + parseInt(price)
+      const totalPrice = oldCart.totalPrice || 0 + parseInt(price)
       cart = await Cart.findOneAndUpdate(
         { user: req.user._id },
         {

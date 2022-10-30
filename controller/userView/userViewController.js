@@ -246,6 +246,11 @@ exports.whishlist = catchAsync(async (req, res) => {
     const whishlist = await Whishlist.findOne({ user: req.user._id }).populate({
         path: 'items.product_id'
     })
+    console.log(whishlist.items.length == 0)
+    if (whishlist == null || whishlist.items == 0) {
+        console.log('no wishlist item')
+        return res.status(200).render('user/emptyWhishlist')
+    }
     console.log(whishlist)
     res.status(200).render('user/whishlist', {
         whishlist
@@ -342,7 +347,16 @@ exports.home = catchAsync(async (req, res, next) => {
     if (product.quantity == 0) {
         outOfstock = true;
     }
+    const review = await Review.find({ product: req.params.id }).populate('user')
+    console.log(review)
+    let avgRating = 0
+    review.forEach(e => {
+        avgRating = avgRating + e.rating
+    })
+    avgRating = avgRating / review.length
+    console.log(avgRating)
     res.status(200).render('user/home', {
+        avgRating,
         outOfstock,
         cart,
         whishlist,

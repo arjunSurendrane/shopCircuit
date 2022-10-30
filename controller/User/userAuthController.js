@@ -116,7 +116,7 @@ exports.sendOtp = catchAsync(async (req, res, next) => {
 
 
     const from = "Shop Circuit"
-    const to = `91${number}`
+    const to = `+91${number}`
     const text = `This is your OTP ${OTP}`
 
     vonage.message.sendSms(from, to, text, (err, responseData) => {

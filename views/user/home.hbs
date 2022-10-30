@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 <!-- Start Hero Slider Section-->
 <div class="hero-slider-section">
     <!-- Slider main container -->
@@ -250,7 +252,7 @@
         </div>
     </div>
     <!-- Start Section Content Text Area -->
-    <div class="product-wrapper" data-aos="fade-up" data-aos-delay="200">
+    <div class="product-wrapper m-5" data-aos="fade-up" data-aos-delay="200">
         <div class="container">
             <div class="row">
                 {{#each product}}
@@ -269,8 +271,7 @@
                             </div>
                             <div class="action-link">
                                 <div class="action-link-left">
-                                    <button onclick="addToCart('{{_id}}')" data-bs-toggle="modal"
-                                        data-bs-target="#modalAddcart" class="text-white">Add to
+                                    <button onclick="addToCart('{{_id}}')" class="text-white">Add to
                                         Cart</button>
                                 </div>
                                 <div class="action-link-right">
@@ -289,15 +290,15 @@
                                 <h6 class="title"><a href="/product/{{_id}}">{{productName}}</a>
                                 </h6>
                                 <ul class="review-star">
+                                    {{#if ../avgRating}}
+                                    <span>{{avgRating}}</span>
                                     <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                    {{/if}}
+
                                 </ul>
                             </div>
                             <div class="content-right">
-                                <span class="price">{{discountPrice}}</span>
+                                <span class="price">₹<strong>{{discountPrice}}</strong></span>
                             </div>
 
                         </div>
@@ -310,6 +311,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <script>
     window.addEventListener('load', async (event) => {
         const res = await axios({
@@ -332,6 +335,13 @@
                 quantity: 1
             }
         })
+        Toastify({
+            text: "Item added to cart",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
     }
 
     async function addtoWhishlist(id) {

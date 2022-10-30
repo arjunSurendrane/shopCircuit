@@ -63,6 +63,7 @@
                     <!-- Start  Product Details Text Area-->
                     <div class="product-details-text">
                         <h4 class="title">{{productName}}</h4>
+                        {{#if ../avgRating}}
                         <div class="d-flex align-items-center">
                             <ul class="review-star">
                                 {{../avgRating}} <img
@@ -72,6 +73,7 @@
                             </ul>
                             <a href="#" class="customer-review ml-2">(customer review )</a>
                         </div>
+                        {{/if}}
                         <div class="price"><span class="product-list-price"><del>{{price}}</del>
                                 Rs
                                 {{discountPrice}} <span class="ml-4 text-success">{{/with}} {{discountOfferPrice}}% off
@@ -127,7 +129,7 @@
 
                                 {{/with}}
 
-                                {{#if user}}
+                                {{!-- {{#if user}}
 
                                 {{#with this.user}}
 
@@ -137,11 +139,30 @@
                                     <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
                                 </form>
                                 {{#if ../../outOfstock}}
+
                                 {{else}}
+
                                 {{/if}}
                                 {{/with}}
                                 {{else}}
                                 <a href="/cart/{{_id}}">+ Add To Cart</a>
+                                {{/if}} --}}
+                                {{#if outOfstock}}
+                                <button type="submit" class="btn bg-dark text-white">coming soon</button>
+                                {{else}}
+                                {{#if user}}
+                                {{#with this.user}}
+                                <form action="" id="addToCart">
+                                    <input type="text" value="http://localhost:3000/cart/{{_id}}" id="addProduct"
+                                        class="d-none">
+                                    <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
+                                </form>
+                                {{/with}}
+                                <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
+
+                                {{else}}
+
+                                {{/if}}
                                 {{/if}}
                                 {{#with product}}
                             </div>
