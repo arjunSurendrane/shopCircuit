@@ -303,7 +303,9 @@
         <div class="review mt-3">
             <form id="addReview">
                 <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"
-                    placeholder="write something.....">{{review}}</textarea>
+                    placeholder="write something....." required>{{review}}</textarea>
+                <p class="text-danger d-none" id="errorRating">Add Rating...!!!</p>
+
                 <button class="btn btn-md btn-black-default-hover mt-5" type="submit">edit</button>
             </form>
         </div>
@@ -498,7 +500,6 @@
     let rating = 0
     function addRating(num) {
         rating = num
-        console.log(rating)
     }
     document.getElementById('addReview').addEventListener('submit', async e => {
         e.preventDefault();
@@ -506,23 +507,29 @@
         const id = url.split('/')[4]
         const review = document.getElementById('comment').value
         const starRating = rating;
-        const res = await axios({
-            method: 'post',
-            url,
-            data: {
-                review,
-                starRating
-            }
-        })
-        Toastify({
-            text: "edit review",
-            className: "info",
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            }
-        }).showToast();
-        setTimeout(() => {
-            location.assign(`/product/${id}`)
-        }, 1000)
+        if (starRating == 0) {
+
+        }
+        else {
+
+            const res = await axios({
+                method: 'post',
+                url,
+                data: {
+                    review,
+                    starRating
+                }
+            })
+            Toastify({
+                text: "edit review",
+                className: "info",
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+            }).showToast();
+            setTimeout(() => {
+                location.assign(`/product/${id}`)
+            }, 1000)
+        }
     })
 </script>

@@ -92,7 +92,7 @@
                                     <p class="text-danger">Out of stock</p>
                                 </span>
                                 {{else}}
-                                <span class="product-stock-in"><i class="ion-checkmark-circled"></i></span>{{quantity}}
+
                                 {{/if}}
                             </div>
                         </div>
@@ -116,12 +116,7 @@
                         </div> --}}
                         <!-- Product Variable Single Item -->
                         <div class="d-flex align-items-center ">
-                            <div class="variable-single-item ">
-                                <span>Quantity</span>
-                                <div class="product-variable-quantity">
-                                    <input min="1" max="100" value="1" type="number" id="quantity">
-                                </div>
-                            </div>
+
 
 
                             <div class="product-add-to-cart-btn">
@@ -129,24 +124,7 @@
 
                                 {{/with}}
 
-                                {{!-- {{#if user}}
 
-                                {{#with this.user}}
-
-                                <form action="" id="addToCart">
-                                    <input type="text" value="http://localhost:3000/cart/{{_id}}" id="addProduct"
-                                        class="d-none">
-                                    <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
-                                </form>
-                                {{#if ../../outOfstock}}
-
-                                {{else}}
-
-                                {{/if}}
-                                {{/with}}
-                                {{else}}
-                                <a href="/cart/{{_id}}">+ Add To Cart</a>
-                                {{/if}} --}}
                                 {{#if outOfstock}}
                                 <button type="submit" class="btn bg-dark text-white">coming soon</button>
                                 {{else}}
@@ -158,9 +136,9 @@
                                     <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
                                 </form>
                                 {{/with}}
-                                <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
 
                                 {{else}}
+                                <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
 
                                 {{/if}}
                                 {{/if}}
@@ -261,7 +239,7 @@
                                 {{/if}}
 
                                 <div class="single-tab-content-item">
-
+                                    {{#if ../review}}
                                     {{#each ../review}}
                                     <!-- Start - Review Comment -->
                                     <ul class="comment mt-4">
@@ -300,6 +278,9 @@
                                     </ul> <!-- End - Review Comment -->
                                     <hr>
                                     {{/each}}
+                                    {{else}}
+                                    <p><span><strong class="d-flex align-item-center">No Review Yet</strong></span></p>
+                                    {{/if}}
                                 </div>
                             </div> <!-- End Product Details Tab Content Singel -->
                         </div>

@@ -37,8 +37,8 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/', indexRouter);
 app.use('/admin', adminRouter);
+app.use('/', indexRouter);
 
 
 app.all('*', (req, res, next) => {

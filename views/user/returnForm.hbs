@@ -35,7 +35,6 @@
             el.preventDefault();
             const url = location.href
             const returnReason = document.getElementById('returnReason').value
-            console.log(url)
             const res = await axios({
                 method: 'post',
                 url,

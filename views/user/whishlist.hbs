@@ -71,7 +71,6 @@
 
     async function addtocart(id) {
 
-        console.log('haiii')
         const quantity = 1;
         const url = `/cart/${id}`
         try {
@@ -82,7 +81,6 @@
                     quantity
                 }
             })
-            console.log(res)
             if (res.data.data == 'item already added to cart') {
                 Toastify({
                     text: "Item already in cart",
@@ -104,7 +102,6 @@
             }
 
         } catch (err) {
-            console.log(err)
             alert(err.response.data.message)
         }
 

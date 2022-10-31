@@ -102,7 +102,6 @@
 <script>
   const subtotal = document.getElementById('subtotal')
   const stotal = document.querySelectorAll('.product_total_table')
-  console.log(stotal.innerHTML)
   let total = 0
   let price = 0;
 
@@ -114,8 +113,7 @@
   let discount = total;
   document.getElementById('couponApply').addEventListener('click', async el => {
     const coupon = document.getElementById('coupon').value
-    console.log(coupon)
-    console.log(total)
+
     //const totalAmount =  subtotal.innerHTML ;
     discount = total - (total * (coupon / 100))
     price = discount
@@ -128,7 +126,6 @@
         price
       }
     })
-    console.log(res)
   })
 
   async function proceedToCheckOut() {

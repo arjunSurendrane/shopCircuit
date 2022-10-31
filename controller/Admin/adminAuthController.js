@@ -20,7 +20,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     httpOnly: true,
   };
-  res.cookie("jwt", token, cookieOption);
+  res.cookie("adminJwt", token, cookieOption);
   res.status(statusCode).json({
     status: "success",
     token,
@@ -46,10 +46,10 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.isAdmin = async function (req, res, next) {
   // 1) ---------getting token and check of it there-----------
-  if (req.cookies.jwt) {
+  if (req.cookies.adminJwt) {
     try {
       // 2) -------------Verification token-------------
-      const decoded = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const decoded = await jwt.verify(req.cookies.adminJwt, process.env.JWT_SECRET);
       if (!decoded) {
         return res.redirect("/admin");
       }

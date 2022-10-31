@@ -162,10 +162,7 @@
                                 <div class="sort-tablist d-flex align-items-center">
 
 
-                                    <!-- Start Page Amount -->
-                                    <div class="page-amount ml-2">
-                                        <span>Showing 1–9 of 21 results</span>
-                                    </div>
+
                                     <!-- End Page Amount -->
                                 </div>
                                 <!-- End Sort tab Button -->
@@ -209,7 +206,8 @@
                                                 <!-- Start Product Default Single Item -->
                                                 <div
                                                     class="product-default-single-item product-color--golden swiper-slide">
-                                                    <div class="image-box">
+                                                    <div class="image-box"
+                                                        style="min-height: 17rem; max-height: 17rem;">
                                                         <a href="/product/{{_id}}" class="image-link">
                                                             <img src="/images/{{image.[0]}}" alt="">
                                                             <img src="/images/{{image.[1]}}" alt="">
@@ -304,12 +302,10 @@
     const url = window.location.href
     const params = url.split('/')[4]
     const id = params.split('?')[0]
-    console.log(id)
     function pagination(num) {
         document.getElementById(`pagination${num}`).href = `/search/${id}?page=${num}`
     }
     async function filterProduct(e) {
-        console.log(e)
         const url = window.location.href
         const id = url.split('/')[4]
 
@@ -324,7 +320,6 @@
                 quantity: 1
             }
         })
-        console.log(res)
     }
 
     async function addtoWhishlist(id) {

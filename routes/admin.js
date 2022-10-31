@@ -17,10 +17,15 @@ const catchAsync = require("../utils/catchAsync");
 
 //========== ADMIN LOGIN PAGE =================
 router.get("/", (req, res) => {
-  res.status(200).render("admin/admin-login", {
-    style: "login",
-    admin: true,
-  });
+  if (!req.cookies.adminJwt) {
+    res.status(200).render("admin/admin-login", {
+      style: "login",
+      admin: true,
+    });
+  } else {
+    res.redirect('/admin/dashboard')
+  }
+
 });
 
 

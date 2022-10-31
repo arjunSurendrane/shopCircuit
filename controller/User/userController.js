@@ -7,7 +7,6 @@ const AppError = require('../../utils/appError');
 
 // ==========1) UPDATE USER ADDRESS ============
 exports.address = catchAsync(async (req, res, next) => {
-    console.log(req.body)
     const user = await User.findOneAndUpdate({ _id: req.user._id }, {
         $push: {
             address: {
@@ -19,21 +18,20 @@ exports.address = catchAsync(async (req, res, next) => {
             }
         }
     })
-    console.log(user)
     res.redirect('/checkout')
 })
 
 
 
 // ================= UPDATE USER PROFILE ===============
-exports.userDetails = catchAsync(async(req,res,next)=>{
-    const user = await User.findOneAndUpdate({_id:req.user._id},{
-        name:req.body.name,
-        email:req.body.email,
-        mob:req.body.mob
+exports.userDetails = catchAsync(async (req, res, next) => {
+    const user = await User.findOneAndUpdate({ _id: req.user._id }, {
+        name: req.body.name,
+        email: req.body.email,
+        mob: req.body.mob
     })
     res.status(200).json({
-        status:'success'
+        status: 'success'
     })
 })
 

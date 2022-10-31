@@ -21,7 +21,7 @@
                     <div class="table_desc">
                         <div class="table_page table-responsive">
                             <h5><strong>Transaction</strong></h5>
-                            {{#if wallet.length-1}}
+
                             <table>
                                 <!-- Start Wishlist Table Head -->
                                 <thead>
@@ -41,6 +41,7 @@
 
 
                                     <tr>
+                                        {{#if amount}}
                                         <td>{{this.date}}</td>
                                         <td>{{this.productName}}</td>
                                         <td>₹{{this.amount}}</td>
@@ -49,7 +50,11 @@
                                         {{else}}
                                         <td class="text-danger"><strong>{{this.method}}</strong></td>
                                         {{/if}}
+                                        {{else}}
+                                        <td>No Transaction</td> <a href="/">continue shopping</a>
+                                        {{/if}}
                                     </tr>
+
 
 
                                     {{/each}}
@@ -60,9 +65,8 @@
 
                                 </tbody>
                             </table>
-                            {{else}}
-                            <td>No Transaction</td> <a href="/">continue shopping</a>
-                            {{/if}}
+
+
                         </div>
                     </div>
                 </div>

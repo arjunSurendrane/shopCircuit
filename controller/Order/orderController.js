@@ -275,16 +275,17 @@ exports.returnProduct = catchAsync(async (req, res, next) => {
 
 //============== ADMIN APPROVE RETURN ========================
 exports.approveReturn = catchAsync(async (req, res, next) => {
-    const order = await Delivery.findOne({ user: req.user._id })
+    console.log(req.body, req.params.id)
+    const order = await Delivery.findOne({ _id: req.params.id })
     let productName;
     let totalPrice = order.totalPrice;
     order.orderItems.forEach(e => {
         productName = e.productName
     })
-    const walletAmount = await Wallet.findOneAndUpdate({ user: req.user._id })
+    const walletAmount = await Wallet.findOneAndUpdate({ user: order.user })
     const amount = walletAmount.amount + order.totalPrice
     console.log(amount)
-    const wallet = await Wallet.findOneAndUpdate({ user: req.user._id }, {
+    const wallet = await Wallet.findOneAndUpdate({ user: order.user }, {
         amount,
         $push: {
             transcation: {
@@ -292,7 +293,7 @@ exports.approveReturn = catchAsync(async (req, res, next) => {
                 amount: totalPrice,
                 date: new Date(Date.now()),
                 method: 'Credit',
-                get: true
+                getit: true
             }
         }
     }, { new: true })

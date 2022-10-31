@@ -7,7 +7,6 @@ const AppError = require('../../utils/appError');
 exports.create = catchAsync(async (req, res, next) => {
     const oldWhishlist = await Whishlist.findOne({ user: req.user._id })
     const oldProduct = await Whishlist.findOne({ user: req.user._id, 'items.product_id': req.params.id })
-    console.log(oldProduct)
     if (!oldWhishlist) {
         const whishlist = await Whishlist.create({
             user: req.user._id,

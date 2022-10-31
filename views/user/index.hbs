@@ -164,9 +164,7 @@
 
 
                   <!-- Start Page Amount -->
-                  <div class="page-amount ml-2">
-                    <span>Showing 1–9 of 21 results</span>
-                  </div>
+
                   <!-- End Page Amount -->
                 </div>
                 <!-- End Sort tab Button -->
@@ -210,7 +208,7 @@
 
                         <!-- Start Product Default Single Item -->
                         <div class="product-default-single-item product-color--golden swiper-slide">
-                          <div class="image-box">
+                          <div class="image-box" style="min-height: 17rem; max-height: 17rem;">
                             <a href="/product/{{_id}}" class="image-link">
                               <img src="/images/{{image.[0]}}" alt="">
                               <img src="/images/{{image.[1]}}" alt="">
@@ -304,7 +302,6 @@
         quantity: 1
       }
     })
-    console.log(res)
   }
 
   async function addtoWhishlist(id) {

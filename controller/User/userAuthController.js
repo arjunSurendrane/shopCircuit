@@ -305,12 +305,10 @@ exports.protect = catchAsync(async function (req, res, next) {
     const decoded = await jwt.verify(token,
         process.env.JWT_SECRET
     );
-    console.log(decoded)
     // 3) --------------Check if user still exist-----------
     const newUser = await User.findById(decoded.id)
     // 4)----------- Check if user change password after the token was issued---------
     const changePassword = newUser.changePassword(decoded.iat)
-    console.log("change passwored = " + changePassword)
     next();
 })
 
@@ -382,11 +380,9 @@ exports.permission = async function (req, res, next) {
             req.user = newUser
             return next()
         } catch (err) {
-            console.log(err)
             return res.redirect('/login');
         }
     }
-    console.log('not inside')
     res.redirect('/login');
 }
 

@@ -231,9 +231,7 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-  console.log('haiiii')
   async function orderSubmit() {
-    console.log('inside function')
     const address = document.getElementById('address').value;
     const totalPrice = document.getElementById('totalAmount').innerHTML;
     const paymentMethod = document.getElementById('paymentMethod').value
@@ -251,12 +249,9 @@
           }
         });
         if (res.data.status == 'paypal') {
-          console.log(res.data)
           const { payment } = res.data;
-          console.log(payment)
           let url = ''
           payment.links.forEach(e => {
-            console.log(e)
             if (e.rel === 'approval_url') {
               url = e.href;
             }
@@ -308,7 +303,6 @@
   }
 
   function razorpay(order) {
-    console.log('iivde')
     var options = {
       "key": 'rzp_test_NdbzbxQDFDJ5MH', // Enter the Key ID generated from the Dashboard
       "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -341,7 +335,6 @@
   }
 
   async function verifyPayment(payment, order) {
-    console.log(payment)
 
     try {
       const res = await axios({

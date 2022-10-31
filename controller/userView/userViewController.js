@@ -52,12 +52,9 @@ exports.otpLogin = (req, res) => {
 // ==============3) RENDER HOME PAGE ================
 exports.listProduct = catchAsync(async (req, res, next) => {
     const obj = JSON.parse(JSON.stringify(req.body))
-    console.log(obj)
     const { productName } = obj
-    console.log(obj.productName)
     const banner = await Banner.find()
     const product = await Product.find({ productName: { $regex: new RegExp('^' + obj.productName + '.*', 'i') } }).exec();
-    console.log(product)
     res.render('user/index', {
         product,
         banner
@@ -67,10 +64,8 @@ exports.listProduct = catchAsync(async (req, res, next) => {
 
 //================RENDER SUGGESTION FOR SEARCH===============
 exports.suggestion = catchAsync(async (req, res, next) => {
-    console.log(req.body.e)
     const payload = req.body.e
     result = await Product.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') } }).exec()
-    console.log(result)
     res.status(200).json({
         result
     })
@@ -86,7 +81,6 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     if (!product) {
         return next(new AppError('product doesnt exist !!!!'))
     }
-    console.log(product)
     let discountOfferPrice
     const { category, discount } = product
     if (category.offer > discount) {
@@ -95,14 +89,12 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     else {
         discountOfferPrice = discount
     }
-    console.log(discountOfferPrice)
 
     let outOfstock = false
     if (product.quantity == 0) {
         outOfstock = true;
     }
     const review = await Review.find({ product: req.params.id }).populate('user')
-    console.log(review)
     let avgRating = 0
     review.forEach(e => {
         avgRating = avgRating + e.rating
@@ -112,7 +104,6 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     if (req.user) {
         permforReviw = await Delivery.findOne({ user: req.user._id, "orderItems.productId": req.params.id })
     }
-    console.log(`this is thw quantity of the product ${outOfstock}`)
     res.status(200).render('user/productDetail', {
         avgRating,
         permforReviw,
@@ -147,17 +138,13 @@ exports.cartPage = catchAsync(async (req, res, next) => {
         const coupon = await Coupon.find()
         let validCoupon = []
         const today = new Date(Date.now())
-        console.log(today)
         coupon.forEach(e => {
-            console.log(e.expireDate)
             if (today <= e.expireDate) {
-                console.log(cart.totalPrice)
                 if (e.offerCriteria <= cart.totalPrice) {
                     validCoupon.push(e)
                 }
             }
         })
-        console.log(validCoupon)
         res.status(200).render('user/cart', {
             cart,
             coupon,
@@ -194,7 +181,6 @@ exports.profile = catchAsync(async (req, res, next) => {
     const pendingOrder = await Order.find({ user: req.user._id }).sort({ createdAt: -1 })
     const deliveredProduct = await Delivery.find({ user: req.user._id }).sort({ createdAt: -1 })
     const order = [...pendingOrder, ...deliveredProduct]
-    console.log(order)
 
     res.status(200).render('user/profile', {
         user,
@@ -207,7 +193,6 @@ exports.profile = catchAsync(async (req, res, next) => {
 
 exports.address = catchAsync(async (req, res, next) => {
     const user = await User.findOne({ _id: req.user._id })
-    console.log(user)
     res.status(200).render('user/profileAddress', {
         user
     })
@@ -224,7 +209,6 @@ exports.profileOrders = catchAsync(async (req, res, next) => {
 
 exports.accountDetails = catchAsync(async (req, res, next) => {
     const user = await User.findOne({ _id: req.user._id })
-    console.log(user)
     res.status(200).render('user/profileDetails', {
         user
     })
@@ -246,12 +230,9 @@ exports.whishlist = catchAsync(async (req, res) => {
     const whishlist = await Whishlist.findOne({ user: req.user._id }).populate({
         path: 'items.product_id'
     })
-    console.log(whishlist.items.length == 0)
     if (whishlist == null || whishlist.items == 0) {
-        console.log('no wishlist item')
         return res.status(200).render('user/emptyWhishlist')
     }
-    console.log(whishlist)
     res.status(200).render('user/whishlist', {
         whishlist
     })
@@ -272,7 +253,6 @@ exports.wallet = catchAsync(async (req, res, next) => {
     }
     )
 
-    console.log(`${trans}`)
     const transaction = wallet.transcation
     res.render('user/wallet', {
         transaction,
@@ -281,8 +261,6 @@ exports.wallet = catchAsync(async (req, res, next) => {
 })
 //=============RENDER SEARCH VIEW =================
 exports.searchView = catchAsync(async (req, res, next) => {
-    console.log(req.params.id)
-    console.log(req.query)
     let filter;
     const { sort } = req.query
     if (sort == 'asc') {
@@ -295,19 +273,16 @@ exports.searchView = catchAsync(async (req, res, next) => {
         filter = { createdAt: -1 }
     }
     const page = (req.query.page - 1) * 12
-    console.log(page)
     let searchView = await Product.find({ category: req.params.id }).sort(filter).limit(12).skip(page);
     // res.status(200).json({
     //     status: 'success',
     //     searchView
     // })
     let length = parseInt(searchView.length / 12) + 1
-    console.log(length)
     let pagination = []
     for (let i = 1; i <= length; i++) {
         pagination.push(i);
     }
-    console.log(pagination)
     let outOfstock = false
     if (searchView.quantity == 0) {
         outOfstock = true;
@@ -348,13 +323,11 @@ exports.home = catchAsync(async (req, res, next) => {
         outOfstock = true;
     }
     const review = await Review.find({ product: req.params.id }).populate('user')
-    console.log(review)
     let avgRating = 0
     review.forEach(e => {
         avgRating = avgRating + e.rating
     })
     avgRating = avgRating / review.length
-    console.log(avgRating)
     res.status(200).render('user/home', {
         avgRating,
         outOfstock,
@@ -367,13 +340,11 @@ exports.home = catchAsync(async (req, res, next) => {
 
 //=============== RENDER INVOICE===============
 exports.invoice = catchAsync(async (req, res, next) => {
-    console.log(req.params.id)
     let order = await Order.findOne({ _id: req.params.id })
     if (!order) {
         order = await Delivery.findOne({ _id: req.params.id })
     }
     const user = await User.findOne({ _id: req.user._id })
-    console.log(order)
     res.status(200).render('user/invoice', {
         invoice: true,
         order,
@@ -391,7 +362,6 @@ exports.invoiceDownload = catchAsync(async (req, res, next) => {
 //==============RENDER REVIEW PAGE ==================
 exports.reviewPage = catchAsync(async (req, res, next) => {
     const review = await Review.findOne({ $and: [{ user: req.user._id }, { product: req.params.id }] })
-    console.log(review)
     res.render('user/addReview', {
         review
     })

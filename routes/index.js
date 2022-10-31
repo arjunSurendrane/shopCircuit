@@ -62,6 +62,7 @@ router.route('/newPassword').get(userController.newPassword).post(authController
 router.use(authController.permission)
 
 
+
 // ================ USER UPDATE====================
 // -------------UPDATE USER ADDRESS-------------
 router.route("/address").post(user.address);

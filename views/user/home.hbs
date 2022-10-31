@@ -10,7 +10,7 @@
             {{#each banner}}
             <div class="hero-single-slider-item swiper-slide">
                 <!-- Hero Slider Image -->
-                <div class="hero-slider-bg">
+                <div class="hero-slider-bg" alt="">
                     <img src="/images/{{image}}" alt="">
                 </div>
                 <!-- Hero Slider Content -->
@@ -256,12 +256,12 @@
         <div class="container">
             <div class="row">
                 {{#each product}}
-                <div class="col-sm-3 col-6">
+                <div class="col-sm-3 col-6 mt-5">
 
 
                     <!-- Start Product Default Single Item -->
                     <div class="product-default-single-item product-color--golden swiper-slide">
-                        <div class="image-box">
+                        <div class="image-box" style="min-height: 17rem; max-height: 17rem;">
                             <a href="/product/{{_id}}" class="image-link">
                                 <img src="/images/{{image.[0]}}" alt="">
                                 <img src="/images/{{image.[1]}}" alt="">
@@ -270,10 +270,17 @@
                                 <span>sale</span>
                             </div>
                             <div class="action-link">
+                                {{#if ../user}}
                                 <div class="action-link-left">
                                     <button onclick="addToCart('{{_id}}')" class="text-white">Add to
                                         Cart</button>
                                 </div>
+                                {{else}}
+                                <div class="action-link-left">
+                                    <button onclick="loginMessage()" class="text-white">Add to
+                                        Cart</button>
+                                </div>
+                                {{/if}}
                                 <div class="action-link-right">
                                     {{!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview"><i
                                             class="icon-magnifier"></i></a> --}}
@@ -306,14 +313,29 @@
 
 
                 </div>
+
                 {{/each}}
+
             </div>
+
         </div>
     </div>
 </div>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script>
+    function loginMessage() {
+        Toastify({
+            text: "Please Login",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #FFA400, #FFA500)",
+            }
+        }).showToast();
+
+    }
+
+
     window.addEventListener('load', async (event) => {
         const res = await axios({
             method: 'get',
@@ -342,6 +364,17 @@
                 background: "linear-gradient(to right, #00b09b, #96c93d)",
             }
         }).showToast();
+        const cart = await axios({
+            method: 'get',
+            url: '/cartLength'
+        })
+        console.log(cart)
+        if (!cart.data.cart) {
+
+        }
+        else {
+            document.getElementById('cartLength').innerHTML = cart.data.cart.cartItems.length
+        }
     }
 
     async function addtoWhishlist(id) {
