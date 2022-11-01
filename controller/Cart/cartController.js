@@ -17,7 +17,7 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
   if (oldCart) {
     if (oldProduct) {
       res.status(200).json({
-        status: "success",
+        status: "duplicate",
         data: "item already added to cart",
       });
     } else {
