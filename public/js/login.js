@@ -56,10 +56,7 @@ if (loginForm) {
                 }, 500)
             }
         } catch (err) {
-            document.getElementById('errorMessage').classList.remove('d-none');
-            window.addEventListener('click', el => {
-                document.getElementById('errorMessage').classList.add('d-none');
-            })
+            alert(err)
         }
 
     })
@@ -87,24 +84,23 @@ if (logoutForm) {
 if (signUpForm) {
     signUpForm.addEventListener('submit', async el => {
         el.preventDefault();
-
-
-
-        console.log(document.getElementById('email').value)
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const mob = document.getElementById('mob').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        // const Pincode = document.getElementById('Pincode').value;
-        // const city = document.getElementById('city').value;
-        // const Locality = document.getElementById('Locality').value;
-        // const BuildingName = document.getElementById('BuildingName_signup').value;
-        // const Landmark = document.getElementById('Landmark_signup').value;
-        // const AddressType = document.getElementById('AddressType').value;
-
         try {
+            console.log(document.getElementById('email').value)
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const mob = document.getElementById('mob').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            // const Pincode = document.getElementById('Pincode').value;
+            // const city = document.getElementById('city').value;
+            // const Locality = document.getElementById('Locality').value;
+            // const BuildingName = document.getElementById('BuildingName_signup').value;
+            // const Landmark = document.getElementById('Landmark_signup').value;
+            // const AddressType = document.getElementById('AddressType').value;
+
             console.log(name, email, mob, password, confirmPassword)
+
+
             const res = await axios({
                 method: 'POST',
                 url: '/signup',
@@ -125,10 +121,7 @@ if (signUpForm) {
 
         } catch (err) {
             console.log(err)
-            document.getElementById('signup_error').innerHTML = 'email address already exist'
-            window.addEventListener('click', e => {
-                document.getElementById('signup_error').innerHTML = ''
-            })
+            alert(err.response.data.message)
         }
 
     })

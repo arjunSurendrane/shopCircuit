@@ -284,11 +284,21 @@
                                 <div class="action-link-right">
                                     {{!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview"><i
                                             class="icon-magnifier"></i></a> --}}
+                                    {{#if ../user}}
                                     <button onclick="addtoWhishlist('{{_id}}')" class="btn text-white mt-2">
                                         <ul>
                                             <li class="fill"><i id="whishlist{{_id}}" class="icon-heart"></i></li>
                                         </ul>
                                     </button>
+                                    {{else}}
+                                    <div class="action-link-left">
+                                        <button onclick="loginMessage()" class="text-white">
+                                            <ul>
+                                                <li class="fill"><i id="whishlist{{_id}}" class="icon-heart"></i></li>
+                                            </ul>
+                                        </button>
+                                    </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>

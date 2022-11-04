@@ -87,7 +87,7 @@ if (adminLogin) {
             console.log('submit')
             if (res.data.status == 'success') {
                 window.setTimeout(() => {
-                    location.assign('/admin/dashboard')
+                    location.assign('/admin/product')
                 }, 500)
             }
 
@@ -137,7 +137,7 @@ if (adminAddProduct) {
             form.append('image', document.getElementById('photo3').files[0])
             form.append('image', document.getElementById('photo4').files[0])
 
-
+            
             console.log(form)
 
             // const productName = document.getElementById('productName').value;
@@ -220,7 +220,7 @@ if (adminEditProduct) {
             if (res.data.status == 'success') {
 
                 location.assign('/admin/product')
-
+                console.log(form);
             }
 
         } catch (err) {

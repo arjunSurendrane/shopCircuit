@@ -103,6 +103,12 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Category Offer </span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/admin/logout">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Logout </span></a>
+      </li>
+
 
 
 
@@ -332,11 +338,7 @@
                       <i class="icon-magnifier"></i>
                     </a>
                   </li>
-                  <li class="d-flex align-item-center mr-5">
-                    <a href="#offcanvas-about" class="offacnvas  offcanvas-toggle">
-                      <i class="icon-menu"></i>
-                    </a>
-                  </li>
+
                 </ul>
               </div>
               <!-- End Header Action Link -->
@@ -829,6 +831,7 @@
 
 
   </script>
+
   <script src="/js/vendor/vendor.min.js"></script>
   <script src="/js/plugins/plugins.min.js"></script>
 
@@ -837,6 +840,143 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
     integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+
+
+  <script>
+
+    const loginForm = document.getElementById('form')
+    const signUpForm = document.getElementById('form-signup')
+
+
+
+    if (signUpForm) {
+      $(document).ready(function () {
+        $("#form-signup").validate({
+          rules: {
+            email: {
+              email: true,
+              required: true
+            },
+            password: {
+              minlength: 4
+            },
+            name: {
+              required: true,
+            },
+            mob: {
+              required: true
+            }
+          },
+          submitHandler: function (form, e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password == confirmPassword) {
+              signup();
+            }
+          }
+        })
+      })
+
+
+
+      async function signup() {
+        try {
+          console.log(document.getElementById('email').value)
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const mob = document.getElementById('mob').value;
+          const password = document.getElementById('password').value;
+          const confirmPassword = document.getElementById('confirmPassword').value;
+          // const Pincode = document.getElementById('Pincode').value;
+          // const city = document.getElementById('city').value;
+          // const Locality = document.getElementById('Locality').value;
+          // const BuildingName = document.getElementById('BuildingName_signup').value;
+          // const Landmark = document.getElementById('Landmark_signup').value;
+          // const AddressType = document.getElementById('AddressType').value;
+
+          console.log(name, email, mob, password, confirmPassword)
+
+
+          const res = await axios({
+            method: 'POST',
+            url: '/signup',
+            data: {
+              name,
+              email,
+              mob,
+              password,
+              confirmPassword
+
+            }
+          })
+          if (res.data.status == 'success') {
+            window.setTimeout(() => {
+              location.assign('/')
+            }, 500)
+          }
+
+        } catch (err) {
+          console.log(err)
+          alert(err.response.data.message)
+        }
+
+      }
+    }
+
+    if (loginForm) {
+
+      $(document).ready(function () {
+        $("#form").validate({
+          rules: {
+            email: {
+              email: true,
+              required: true
+            },
+            password: {
+              minlength: 4
+            }
+          },
+          submitHandler: function (form, e) {
+            e.preventDefault();
+            login();
+          }
+        })
+      })
+
+
+      async function login() {
+
+        console.log('inside login function ')
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        try {
+          const res = await axios({
+            method: 'POST',
+            url: '/login',
+            data: {
+              email,
+              password
+            }
+          })
+          if (res.data.status == 'success') {
+            window.setTimeout(() => {
+              location.assign('/')
+            }, 500)
+          }
+        } catch (err) {
+          document.getElementById('errorMessage').classList.remove('d-none');
+          window.addEventListener('click', el => {
+            document.getElementById('errorMessage').classList.add('d-none');
+          })
+        }
+
+      }
+    }
+
+  </script>
 </body>
 
 </html>

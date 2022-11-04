@@ -11,12 +11,15 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
     user: req.user._id,
     "cartItems.product": req.params.id,
   });
+
+  //const itemExsits = oldCart.cartItems.find(item => item.product.toString() === req.params.id)
+
   let { quantity } = req.body;
   let cart;
-  const price = product.price * quantity;
+  const price = product.discountPrice * quantity;
   if (oldCart) {
     if (oldProduct) {
-      res.status(200).json({
+      return res.status(200).json({
         status: "duplicate",
         data: "item already added to cart",
       });
@@ -81,7 +84,7 @@ exports.deleteCartItem = catchAsync(async (req, res, next) => {
 });
 
 // ======================3) QUANTITY UPDATE ============================
-exports.updateQuantity = catchAsync(async (req, res, next) => {
+exports.quantityUpdatee = catchAsync(async (req, res, next) => {
   const product = await Product.findOne({ _id: req.params.id });
   const cart = await Cart.findOne({ user: req.user._id })
   const { quantity } = req.body;
@@ -110,6 +113,36 @@ exports.updateQuantity = catchAsync(async (req, res, next) => {
     status: "success",
   });
 });
+
+
+exports.updateQuantity = catchAsync(async (req, res, next) => {
+  console.log(req.body)
+  const product = await Product.findOne({ _id: req.params.id });
+  let { quantity, operation } = req.body
+  if (operation == 'inc') {
+    quantity++
+  } else {
+    quantity--
+  }
+  const price = product.discountPrice * quantity
+  console.log(quantity)
+  console.log(product)
+  console.log(price)
+  const newCart = await Cart.findOneAndUpdate(
+    { user: req.user._id, "cartItems.product": req.params.id },
+    {
+      "cartItems.$.quantity": quantity,
+      "cartItems.$.price": price
+    }, {
+    new: true
+  })
+  console.log(newCart)
+  res.status(200).json({
+    status: 'success',
+    quantity,
+    price,
+  })
+})
 
 // ===================4) COUPON ADDED TO CART ==================
 exports.addCoupon = catchAsync(async (req, res, next) => {

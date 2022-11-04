@@ -3,6 +3,7 @@ const catchAsync = require("../../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("../../utils/appError");
 const { ConnectAppContext } = require("twilio/lib/rest/api/v2010/account/connectApp");
+const async = require("hbs/lib/async");
 
 // ------------CREATE TOKEN-------------
 const generateToken = (userid) => {
@@ -43,6 +44,17 @@ exports.login = catchAsync(async (req, res, next) => {
   // 3) ----------successfully login------------------
   createSendToken(admin, 200, res);
 });
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.cookie('adminJwt', 'Logout', {
+    expires: new Date(
+      Date.now() + 100
+    ),
+    httpOnly: true,
+  })
+  res.redirect('/admin')
+})
+
 
 exports.isAdmin = async function (req, res, next) {
   // 1) ---------getting token and check of it there-----------

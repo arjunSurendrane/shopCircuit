@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 <!-- ...:::: Start Shop Section:::... -->
 <div class="shop-section mt-5">
     <div class="container">
@@ -216,15 +218,22 @@
                                                             <span>sale</span>
                                                         </div>
                                                         <div class="action-link">
+                                                            {{#if ../user}}
                                                             <div class="action-link-left">
                                                                 <button onclick="addToCart('{{_id}}')"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modalAddcart"
                                                                     class="text-white">Add to
                                                                     Cart</button>
                                                             </div>
+                                                            {{else}}
+                                                            <div class="action-link-left">
+                                                                <button onclick="loginMessage()" class="text-white">Add
+                                                                    to
+                                                                    Cart</button>
+                                                            </div>
+                                                            {{/if}}
                                                             <div class="action-link-right">
 
+                                                                {{#if ../user}}
                                                                 <button onclick="addtoWhishlist('{{_id}}')"
                                                                     class="btn text-white mt-2">
                                                                     <ul>
@@ -232,6 +241,16 @@
                                                                                 class="icon-heart"></i></li>
                                                                     </ul>
                                                                 </button>
+                                                                {{else}}
+                                                                <div class="action-link-left">
+                                                                    <button onclick="loginMessage()" class="text-white">
+                                                                        <ul>
+                                                                            <li class="fill"><i id="whishlist{{_id}}"
+                                                                                    class="icon-heart"></i></li>
+                                                                        </ul>
+                                                                    </button>
+                                                                </div>
+                                                                {{/if}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -279,9 +298,21 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 
 <!-- ...:::: End Shop Section:::... -->
 <script>
+    function loginMessage() {
+        Toastify({
+            text: "Please Login",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #FFA400, #FFA500)",
+            }
+        }).showToast();
+
+    }
     window.addEventListener('load', async (event) => {
         const res = await axios({
             method: 'get',

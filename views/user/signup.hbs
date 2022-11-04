@@ -2,7 +2,7 @@
   <div class="col-lg-6 col-md-6">
     <div class="" data-aos="fade-up" data-aos-delay="200">
       <h3>Register</h3>
-      <form action="#" class="form-signup">
+      <form action="#" id="form-signup">
         <p><span class="text-danger" id="signup_error"></span></p>
         <div class="default-form-box">
           <label>Name <span>*</span></label>
@@ -45,23 +45,12 @@
   </div>
 </section>
 <script>
-  function onlyLetters(str) {
-    return /^[a-zA-Z]+$/.test(str);
-  }
+
   const name = document.getElementById('name')
   const num = document.getElementById('mob')
   const confirmPassword = document.getElementById('confirmPassword')
   const password = document.getElementById('password')
-  name.addEventListener('keyup', e => {
 
-    if (onlyLetters(name.value)) {
-      name.style.borderColor = 'green'
-      document.getElementById('nameerror').innerHTML = ''
-    } else {
-      name.style.borderColor = 'red'
-      document.getElementById('nameerror').innerHTML = 'Enter only letters'
-    }
-  })
 
   num.addEventListener('keyup', () => {
     if (num.value.length < 10) {
@@ -83,4 +72,3 @@
     }
   })
 </script>
-<script src="/js/login.js"></script>

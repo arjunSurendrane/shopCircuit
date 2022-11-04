@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
 //=========== LOGIN API =============
 router.post("/login", authController.login);
 
-
+router.get('/logout', authController.logout)
 
 
 //========= PROTECT MIDDLEWARE
