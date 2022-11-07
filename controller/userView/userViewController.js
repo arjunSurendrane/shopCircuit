@@ -201,6 +201,12 @@ exports.address = catchAsync(async (req, res, next) => {
 
 exports.profileOrders = catchAsync(async (req, res, next) => {
     const pendingOrder = await Order.find({ user: req.user._id }).sort({ createdAt: -1 })
+    pendingOrder.map(e => {
+        const date = (e.createdAt).toString().split(' ').slice(1, 4);
+        console.log(date.toString());
+        e.orderDate = date.toString()
+        console.log(e)
+    })
     res.status(200).render('user/profileOrder', {
         pendingOrder
     })
@@ -216,6 +222,12 @@ exports.accountDetails = catchAsync(async (req, res, next) => {
 
 exports.deliveryOrder = catchAsync(async (req, res, next) => {
     const deliveredProduct = await Delivery.find({ user: req.user._id }).sort({ createdAt: -1 })
+    deliveredProduct.map(e => {
+        const date = (e.createdAt).toString().split(' ').slice(1, 4);
+        console.log(date.toString());
+        e.orderDate = date.toString()
+        console.log(e)
+    })
     res.status(200).render('user/profileDeliveryOrder', {
         deliveredProduct
     })

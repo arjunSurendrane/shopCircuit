@@ -66,13 +66,18 @@ exports.orderCreate = catchAsync(async (req, res, next) => {
         stockManagment(el.product._id, el.quantity);
     });
     if (req.body.paymentMethod == 'COD') { paymentStatus = 'Completed' }
+    let date = new Date(Date.now())
+    const orderDate = (date).toString().split(' ').slice(1, 4);
+    console.log(orderDate.toString());
+
     const order = await Order.create({
         user: req.user._id,
         orderItems,
         shippingAddress: req.body.address,
         totalPrice: req.body.totalPrice,
         PaymentMethod: req.body.paymentMethod,
-        paymentStatus
+        paymentStatus,
+        date: orderDate.toString()
 
     })
     if (req.body.paymentMethod == 'COD') {

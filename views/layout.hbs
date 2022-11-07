@@ -660,7 +660,7 @@
           <div class="row justify-content-between align-items-center align-items-center flex-column flex-md-row mb-n6">
             <div class="col-auto mb-6">
               <div class="footer-copyright">
-                <p class="copyright-text">&copy; 2021
+                <p class="copyright-text">&copy; <span id="year"></span>
                   <a href="/">Shop circuit</a>. Made with
                   <i class="fa fa-heart text-danger"></i>
                   by
@@ -753,6 +753,7 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
 
     async function count() {
       const cart = await axios({

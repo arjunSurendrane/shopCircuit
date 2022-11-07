@@ -67,6 +67,9 @@ const orderSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     default: "Pending",
+  },
+  date: {
+    type: String
   }
 }, {
   timestamps: true
