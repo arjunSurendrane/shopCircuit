@@ -140,7 +140,8 @@
                                 {{/with}}
 
                                 {{else}}
-                                <button type="submit" class="btn bg-dark text-white">+Add To Cart</button>
+                                <button type="submit" class="btn bg-dark text-white" onclick="loginMessage()">+Add To
+                                    Cart</button>
 
                                 {{/if}}
                                 {{/if}}
@@ -293,7 +294,19 @@
         </div>
     </div>
 </div> <!-- End Product Content Tab Section -->
+
 <script>
+    function loginMessage() {
+        Toastify({
+            text: "Please Login",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #FFA400, #FFA500)",
+            }
+        }).showToast();
+
+    }
+
     var options = {
         width: 400,
         zoomWidth: 500,
